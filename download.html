@@ -26,7 +26,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Background */
 .bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; background: #0a0a0a; }
 
 .bg-gradient {
@@ -119,7 +118,6 @@ body {
     to   { transform: translateY(140vh); }
 }
 
-/* Container */
 .container { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; position: relative; z-index: 1; }
 
 @keyframes fadeUp {
@@ -129,7 +127,6 @@ body {
 
 .fade { animation: fadeUp 0.5s ease-out both; }
 
-/* Top bar */
 .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 0 22px; }
 
 .back-btn {
@@ -174,10 +171,7 @@ body {
     box-shadow: 0 0 6px rgba(245, 158, 11, 0.8);
 }
 
-.top-status.online::before {
-    background: #22c55e;
-    box-shadow: 0 0 6px rgba(34, 197, 94, 0.8);
-}
+.top-status.online::before { background: #22c55e; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
 
 .top-status.working::before {
     background: #38bdf8;
@@ -185,12 +179,8 @@ body {
     animation: pulseDot 1.5s ease-in-out infinite;
 }
 
-@keyframes pulseDot {
-    0%, 100% { opacity: 1; }
-    50%      { opacity: 0.4; }
-}
+@keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-/* Hero small */
 .hero-sm { text-align: center; padding: 4px 0 22px; }
 
 .hero-sm h1 {
@@ -204,14 +194,8 @@ body {
 
 .hero-sm h1 span { color: #38bdf8; }
 
-.hero-sm p {
-    font-size: 13px;
-    color: #8a8a92;
-    max-width: 400px;
-    margin: 0 auto;
-}
+.hero-sm p { font-size: 13px; color: #8a8a92; max-width: 400px; margin: 0 auto; }
 
-/* Panel */
 .panel {
     background: rgba(19, 19, 22, 0.7);
     border: 1px solid #222227;
@@ -236,7 +220,6 @@ body {
 
 .panel-title i { font-size: 11px; color: #38bdf8; }
 
-/* Form fields */
 .field { margin-bottom: 12px; }
 .field:last-child { margin-bottom: 0; }
 
@@ -280,7 +263,6 @@ body {
 
 .field select option { background: #141418; color: #e8e8e8; }
 
-/* Buttons */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -300,7 +282,6 @@ body {
 }
 
 .btn:active { transform: scale(0.98); }
-
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
 .btn-primary {
@@ -332,16 +313,7 @@ body {
 
 .btn-green:hover { box-shadow: 0 12px 28px -8px rgba(34, 197, 94, 0.85); }
 
-.btn-row { display: flex; gap: 8px; margin-top: 10px; }
-.btn-row .btn { flex: 1; }
-
-/* URL input with icon */
-.url-input-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0;
-}
+.url-input-wrap { position: relative; display: flex; align-items: center; }
 
 .url-input-wrap input {
     width: 100%;
@@ -387,13 +359,7 @@ body {
 .url-input-wrap .clear-btn.show { display: inline-flex; }
 .url-input-wrap .clear-btn:hover { color: #ef4444; border-color: #ef4444; }
 
-/* Platform chips */
-.platform-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 8px;
-}
+.platform-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 
 .chip {
     display: inline-flex;
@@ -405,11 +371,9 @@ body {
     border: 1px solid #26262b;
     font-size: 10.5px;
     color: #8a8a92;
-    transition: all 0.2s ease;
 }
 
 .chip i { font-size: 10px; }
-
 .chip.tiktok i    { color: #25f4ee; }
 .chip.instagram i { color: #e1306c; }
 .chip.youtube i   { color: #ff0033; }
@@ -417,7 +381,6 @@ body {
 .chip.twitter i   { color: #ffffff; }
 .chip.facebook i  { color: #1877f2; }
 
-/* Preview card */
 .preview-card {
     display: flex;
     gap: 14px;
@@ -426,8 +389,6 @@ body {
     border: 1px solid #26262b;
     border-radius: 13px;
     margin-bottom: 14px;
-    position: relative;
-    overflow: hidden;
 }
 
 .preview-thumb {
@@ -445,19 +406,9 @@ body {
     border: 1px solid #26262b;
 }
 
-.preview-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+.preview-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-.preview-info {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
+.preview-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 
 .preview-title {
     font-size: 13.5px;
@@ -471,15 +422,7 @@ body {
     word-break: break-word;
 }
 
-.preview-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    font-size: 11px;
-    color: #6b6b73;
-    align-items: center;
-    margin-top: 2px;
-}
+.preview-meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: 11px; color: #6b6b73; align-items: center; margin-top: 2px; }
 
 .preview-meta .tag {
     display: inline-flex;
@@ -500,7 +443,6 @@ body {
     color: #ef4444;
 }
 
-/* Type selector */
 .type-tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -537,12 +479,8 @@ body {
     box-shadow: 0 4px 12px -4px rgba(56, 189, 248, 0.5);
 }
 
-.type-tab:not(.active):hover {
-    background: #17171b;
-    color: #e8e8e8;
-}
+.type-tab:not(.active):hover { background: #17171b; color: #e8e8e8; }
 
-/* Progress */
 .progress-wrap { margin-top: 8px; }
 
 .progress-header {
@@ -582,7 +520,6 @@ body {
     border: 1px solid #26262b;
     border-radius: 100px;
     overflow: hidden;
-    position: relative;
 }
 
 .progress-fill {
@@ -608,13 +545,8 @@ body {
     to   { transform: translateX(100%); }
 }
 
-.progress-fill.done {
-    background: linear-gradient(90deg, #22c55e, #15803d);
-}
-
-.progress-fill.fail {
-    background: linear-gradient(90deg, #ef4444, #b91c1c);
-}
+.progress-fill.done { background: linear-gradient(90deg, #22c55e, #15803d); }
+.progress-fill.fail { background: linear-gradient(90deg, #ef4444, #b91c1c); }
 
 .progress-info {
     display: flex;
@@ -634,7 +566,6 @@ body {
 
 .progress-info i { font-size: 10px; }
 
-/* Result box */
 .result-box {
     margin-top: 14px;
     padding: 16px;
@@ -655,8 +586,6 @@ body {
     margin-bottom: 10px;
 }
 
-.result-title i { font-size: 12px; }
-
 .result-filename {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
@@ -670,33 +599,32 @@ body {
     border: 1px solid #1c1c20;
 }
 
-.result-actions {
-    display: flex;
-    gap: 8px;
-}
-
+.result-actions { display: flex; gap: 8px; }
 .result-actions .btn { flex: 1; }
 
-/* Empty state */
-.empty-state {
-    text-align: center;
-    padding: 28px 16px;
-    color: #4a4a52;
+/* Proxy log box */
+.proxy-log {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    background: #0f0f12;
+    border: 1px solid #1c1c20;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: #6b6b73;
+    line-height: 1.6;
+    max-height: 140px;
+    overflow-y: auto;
 }
 
-.empty-state i {
-    font-size: 30px;
-    color: #26262b;
-    margin-bottom: 10px;
-    display: block;
-}
+.proxy-log::-webkit-scrollbar { width: 5px; }
+.proxy-log::-webkit-scrollbar-thumb { background: #26262b; border-radius: 3px; }
 
-.empty-state p {
-    font-size: 12.5px;
-    line-height: 1.5;
-}
+.proxy-log .pl-item { display: flex; gap: 8px; align-items: flex-start; }
+.proxy-log .pl-item.ok   { color: #22c55e; }
+.proxy-log .pl-item.fail { color: #ef4444; }
+.proxy-log .pl-item.try  { color: #38bdf8; }
 
-/* Loading overlay */
 .loading-overlay {
     position: fixed;
     inset: 0;
@@ -724,9 +652,8 @@ body {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.loading-text { font-size: 12.5px; color: #8a8a92; }
+.loading-text { font-size: 12.5px; color: #8a8a92; text-align: center; padding: 0 20px; }
 
-/* Toast */
 .toast {
     position: fixed;
     bottom: 24px;
@@ -750,17 +677,12 @@ body {
     max-width: 90vw;
 }
 
-.toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast i { font-size: 13px; }
 .toast.success i { color: #22c55e; }
 .toast.error i { color: #ef4444; }
 .toast.info i { color: #38bdf8; }
 
-/* Mobile */
 @media (max-width: 380px) {
     .container { padding: 16px 12px 50px; }
     .hero-sm h1 { font-size: 19px; }
@@ -770,7 +692,6 @@ body {
     .result-filename { font-size: 11px; }
 }
 
-/* Desktop */
 @media (min-width: 720px) {
     .container { padding: 30px 24px 70px; }
     .hero-sm h1 { font-size: 26px; }
@@ -826,7 +747,6 @@ body {
         <p>Paste link video atau audio dari platform apa pun. Download dalam kualitas terbaik.</p>
     </div>
 
-    <!-- Panel 1: URL input -->
     <div class="panel fade" style="animation-delay:0.1s">
         <div class="panel-title">
             <i class="fa-solid fa-link"></i>
@@ -854,9 +774,10 @@ body {
             <i class="fa-solid fa-magnifying-glass"></i>
             Preview
         </button>
+
+        <div class="proxy-log" id="proxyLog" style="display:none;"></div>
     </div>
 
-    <!-- Panel 2: Preview & Config -->
     <div class="panel fade" style="animation-delay:0.14s; display:none;" id="previewPanel">
         <div class="panel-title">
             <i class="fa-solid fa-circle-info"></i>
@@ -916,7 +837,6 @@ body {
         </button>
     </div>
 
-    <!-- Panel 3: Progress -->
     <div class="panel fade" style="animation-delay:0.18s; display:none;" id="progressPanel">
         <div class="panel-title">
             <i class="fa-solid fa-gauge-high"></i>
@@ -939,7 +859,7 @@ body {
             <div class="progress-info">
                 <span id="progressSpeed">
                     <i class="fa-solid fa-bolt"></i>
-                    <span>0 MB/s</span>
+                    <span>0 B/s</span>
                 </span>
                 <span id="progressEta">
                     <i class="fa-regular fa-clock"></i>
@@ -962,35 +882,57 @@ body {
 <script>
 /* ============================================================
    ALL IN ONE DOWNLOADER — FirstTool Fortech
-   Based on oneforalldownloader.com API
+   Multi-proxy fallback untuk bypass Cloudflare 403
    ============================================================ */
 
 (function () {
     'use strict';
 
-    /* ============ CONFIG ============ */
     var API_BASE = 'https://oneforalldownloader.com';
 
-    // CORS proxy fallback untuk request POST
+    // Multi proxy chain — dicoba berurutan sampai salah satu berhasil
     var PROXIES = [
         {
-            build: function (url) { return url; }, // direct first
-            transform: function (res) { return res; }
+            name: 'direct',
+            build: function (url) { return url; }
         },
         {
-            build: function (url) { return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url); },
-            transform: function (res) { return res; }
+            name: 'corsproxy.io',
+            build: function (url) { return 'https://corsproxy.io/?' + encodeURIComponent(url); }
         },
         {
-            build: function (url) { return 'https://corsproxy.io/?' + encodeURIComponent(url); },
-            transform: function (res) { return res; }
+            name: 'allorigins',
+            build: function (url) { return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url); }
+        },
+        {
+            name: 'codetabs',
+            build: function (url) { return 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url); }
+        },
+        {
+            name: 'thingproxy',
+            build: function (url) { return 'https://thingproxy.freeboard.io/fetch/' + url; }
+        },
+        {
+            name: 'corsproxy.org',
+            build: function (url) { return 'https://corsproxy.org/?' + encodeURIComponent(url); }
+        },
+        {
+            name: 'cors.eu.org',
+            build: function (url) { return 'https://cors.eu.org/' + url; }
+        },
+        {
+            name: 'whateverorigin',
+            build: function (url) { return 'https://www.whateverorigin.org/get?url=' + encodeURIComponent(url); }
+        },
+        {
+            name: 'cors-anywhere',
+            build: function (url) { return 'https://cors-anywhere.herokuapp.com/' + url; }
         }
     ];
 
     var VIDEO_FORMATS = ['mp4', 'webm', 'any'];
     var AUDIO_FORMATS = ['mp3', 'm4a', 'opus', 'wav', 'flac', 'any'];
 
-    /* ============ STATE ============ */
     var state = {
         url: '',
         uuid: '',
@@ -1012,7 +954,6 @@ body {
         completed: false
     };
 
-    /* ============ DOM ============ */
     var $ = function (id) { return document.getElementById(id); };
 
     var elUrlInput = $('urlInput');
@@ -1039,6 +980,7 @@ body {
     var elToastMsg = $('toastMsg');
     var elLoading = $('loadingOverlay');
     var elLoadingText = $('loadingText');
+    var elProxyLog = $('proxyLog');
 
     /* ============ UTIL ============ */
     function showToast(message, type) {
@@ -1055,12 +997,12 @@ body {
         clearTimeout(elToast._timer);
         elToast._timer = setTimeout(function () {
             elToast.classList.remove('show');
-        }, 2600);
+        }, 3200);
     }
 
     function setLoading(on, text) {
         if (on) {
-            elLoadingText.textContent = text || 'Memuat...';
+            elLoadingText.innerHTML = text || 'Memuat...';
             elLoading.classList.add('active');
         } else {
             elLoading.classList.remove('active');
@@ -1087,24 +1029,17 @@ body {
         var h = Math.floor(sec / 3600);
         var m = Math.floor((sec % 3600) / 60);
         var s = sec % 60;
-        if (h > 0) {
-            return h + 'j ' + m + 'm ' + s + 's';
-        }
+        if (h > 0) return h + 'j ' + m + 'm ' + s + 's';
         return m + 'm ' + s + 's';
     }
 
-    function formatBytes(bytesPerSec) {
-        if (!bytesPerSec || isNaN(bytesPerSec)) return '0 B/s';
-        var n = parseFloat(bytesPerSec);
-        if (typeof bytesPerSec === 'string' && /[a-zA-Z]/.test(bytesPerSec)) {
-            return bytesPerSec;
-        }
+    function formatBytes(bps) {
+        if (!bps || isNaN(bps)) return '0 B/s';
+        if (typeof bps === 'string' && /[a-zA-Z]/.test(bps)) return bps;
+        var n = parseFloat(bps);
         var units = ['B/s', 'KB/s', 'MB/s', 'GB/s'];
         var i = 0;
-        while (n >= 1024 && i < units.length - 1) {
-            n /= 1024;
-            i++;
-        }
+        while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
         return n.toFixed(2) + ' ' + units[i];
     }
 
@@ -1123,35 +1058,114 @@ body {
         return 'Unknown';
     }
 
-    /* ============ FETCH WITH PROXY FALLBACK ============ */
-    function fetchWithFallback(path, options) {
-        var url = API_BASE + path;
-        var chain = Promise.reject(new Error('init'));
+    /* ============ PROXY LOG ============ */
+    function clearProxyLog() {
+        elProxyLog.innerHTML = '';
+        elProxyLog.style.display = 'none';
+    }
 
-        PROXIES.forEach(function (proxy) {
-            chain = chain.catch(function () {
-                var targetUrl = proxy.build(url);
-                return fetch(targetUrl, options).then(function (res) {
-                    if (!res.ok) throw new Error('HTTP ' + res.status);
-                    return res;
+    function logProxy(proxyName, status, detail) {
+        elProxyLog.style.display = 'block';
+        var item = document.createElement('div');
+        item.className = 'pl-item ' + status;
+        var icon = status === 'ok' ? '✓' : (status === 'fail' ? '✗' : '→');
+        item.textContent = icon + ' [' + proxyName + '] ' + (detail || '');
+        elProxyLog.appendChild(item);
+        elProxyLog.scrollTop = elProxyLog.scrollHeight;
+    }
+
+    /* ============ FETCH MULTI-PROXY ============ */
+    function fetchMultiProxy(targetUrl, options) {
+        options = options || {};
+        var method = (options.method || 'GET').toUpperCase();
+        var body = options.body;
+
+        var headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json, text/plain, */*'
+        };
+
+        var attemptIdx = 0;
+
+        function attempt() {
+            if (attemptIdx >= PROXIES.length) {
+                return Promise.reject(new Error('Semua proxy gagal. Coba lagi nanti atau pakai jaringan lain.'));
+            }
+
+            var proxy = PROXIES[attemptIdx];
+            attemptIdx++;
+            var proxiedUrl = proxy.build(targetUrl);
+
+            logProxy(proxy.name, 'try', 'mencoba...');
+
+            var fetchOpts = {
+                method: method,
+                headers: headers,
+                mode: 'cors',
+                credentials: 'omit'
+            };
+
+            if (method !== 'GET' && body) {
+                fetchOpts.body = body;
+            }
+
+            // Timeout 15s per proxy
+            var controller = new AbortController();
+            var timeoutId = setTimeout(function () {
+                controller.abort();
+            }, 15000);
+            fetchOpts.signal = controller.signal;
+
+            return fetch(proxiedUrl, fetchOpts)
+                .then(function (res) {
+                    clearTimeout(timeoutId);
+                    if (!res.ok) {
+                        throw new Error('HTTP ' + res.status);
+                    }
+                    return res.text();
+                })
+                .then(function (text) {
+                    // Beberapa proxy (whateverorigin) return JSON {contents: "..."}
+                    if (proxy.name === 'whateverorigin') {
+                        try {
+                            var j = JSON.parse(text);
+                            if (j && j.contents) {
+                                text = j.contents;
+                            }
+                        } catch (e) {}
+                    }
+
+                    // Validasi: response harus JSON parseable
+                    try {
+                        var parsed = JSON.parse(text);
+                        logProxy(proxy.name, 'ok', 'berhasil');
+                        return parsed;
+                    } catch (e) {
+                        // Bukan JSON — mungkin proxy return HTML error
+                        if (text.indexOf('<!DOCTYPE') === 0 || text.indexOf('<html') === 0) {
+                            throw new Error('response HTML (bukan JSON)');
+                        }
+                        // Coba parse paksa
+                        throw new Error('bukan JSON valid');
+                    }
+                })
+                .catch(function (err) {
+                    clearTimeout(timeoutId);
+                    var msg = err.message || 'error';
+                    if (err.name === 'AbortError') msg = 'timeout';
+                    logProxy(proxy.name, 'fail', msg);
+                    // Lanjut ke proxy berikutnya
+                    return attempt();
                 });
-            });
-        });
+        }
 
-        return chain;
+        return attempt();
     }
 
     function postJson(path, body) {
-        var options = {
+        return fetchMultiProxy(API_BASE + path, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json, text/plain, */*'
-            },
             body: JSON.stringify(body)
-        };
-        return fetchWithFallback(path, options).then(function (res) {
-            return res.json();
         });
     }
 
@@ -1171,7 +1185,8 @@ body {
         }
 
         state.url = url;
-        setLoading(true, 'Mengambil metadata...');
+        clearProxyLog();
+        setLoading(true, 'Mengambil metadata...<br><span style="font-size:11px;color:#6b6b73;">Mencoba beberapa proxy, mohon tunggu</span>');
         setStatus('Fetching...', 'working');
         elPreviewBtn.disabled = true;
 
@@ -1183,8 +1198,8 @@ body {
                 setLoading(false);
                 elPreviewBtn.disabled = false;
 
-                if (data.status === 'error') {
-                    throw new Error(data.msg || 'Preview gagal');
+                if (!data || data.status === 'error') {
+                    throw new Error((data && data.msg) || 'Preview gagal');
                 }
 
                 state.uuid = data.uuid || '';
@@ -1198,7 +1213,6 @@ body {
                 setStatus('Preview siap', 'online');
                 showToast('Metadata berhasil diambil', 'success');
 
-                // Auto scroll ke preview panel
                 setTimeout(function () {
                     elPreviewPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 200);
@@ -1207,7 +1221,7 @@ body {
                 setLoading(false);
                 elPreviewBtn.disabled = false;
                 setStatus('Gagal preview', '');
-                showToast('Gagal: ' + (err.message || 'Unknown error'), 'error');
+                showToast('Gagal: ' + (err.message || 'Semua proxy gagal'), 'error');
                 console.error('Preview error:', err);
             });
     }
@@ -1216,23 +1230,16 @@ body {
     function renderPreview() {
         elPreviewPanel.style.display = 'block';
 
-        // Thumbnail
         if (state.thumbnail) {
             elPreviewThumb.innerHTML = '<img src="' + escapeHtml(state.thumbnail) + '" alt="thumb" onerror="this.parentElement.innerHTML=\'<i class=&quot;fa-solid fa-film&quot;></i>\';" />';
         } else {
             elPreviewThumb.innerHTML = '<i class="fa-solid fa-film"></i>';
         }
 
-        // Title
         elPreviewTitle.textContent = state.title;
-
-        // Source
         elPreviewSource.querySelector('span').textContent = state.source;
-
-        // Duration
         elPreviewDuration.querySelector('span').textContent = formatDuration(state.duration);
 
-        // Populate quality + format
         populateQualityOptions();
         populateFormatOptions();
     }
@@ -1241,20 +1248,16 @@ body {
         elQualitySelect.innerHTML = '';
 
         if (state.type === 'audio') {
-            // Audio: ga ada pilihan kualitas, cuma any
             var optAny = document.createElement('option');
             optAny.value = 'any';
             optAny.textContent = 'Otomatis';
             elQualitySelect.appendChild(optAny);
-
-            // Hide quality field untuk audio
             elQualityField.style.display = 'none';
             return;
         }
 
         elQualityField.style.display = 'block';
 
-        // Extract unique heights
         var heights = [];
         if (state.formats && state.formats.length) {
             state.formats.forEach(function (f) {
@@ -1272,10 +1275,10 @@ body {
             elQualitySelect.appendChild(opt);
         });
 
-        var optAny = document.createElement('option');
-        optAny.value = 'any';
-        optAny.textContent = 'Otomatis (terbaik)';
-        elQualitySelect.appendChild(optAny);
+        var optAuto = document.createElement('option');
+        optAuto.value = 'any';
+        optAuto.textContent = 'Otomatis (terbaik)';
+        elQualitySelect.appendChild(optAuto);
         elQualitySelect.value = 'any';
     }
 
@@ -1293,7 +1296,6 @@ body {
         elFormatSelect.value = state.type === 'audio' ? 'mp3' : 'mp4';
     }
 
-    /* ============ TYPE TAB SWITCH ============ */
     document.querySelectorAll('.type-tab').forEach(function (tab) {
         tab.addEventListener('click', function () {
             document.querySelectorAll('.type-tab').forEach(function (t) { t.classList.remove('active'); });
@@ -1316,7 +1318,6 @@ body {
         elResultContainer.innerHTML = '';
         state.completed = false;
 
-        // Reset progress UI
         elProgressPanel.style.display = 'block';
         elProgressFill.style.width = '0%';
         elProgressFill.className = 'progress-fill';
@@ -1326,7 +1327,6 @@ body {
         elProgressSpeed.querySelector('span').textContent = '0 B/s';
         elProgressEta.querySelector('span').textContent = 'ETA -';
 
-        // Scroll to progress panel
         setTimeout(function () {
             elProgressPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 200);
@@ -1361,7 +1361,7 @@ body {
 
         postJson('/add', payload)
             .then(function (data) {
-                if (data.status !== 'ok') {
+                if (!data || data.status !== 'ok') {
                     throw new Error('Gagal masuk antrean: ' + JSON.stringify(data));
                 }
                 setStatus('Mendownload...', 'working');
@@ -1381,7 +1381,6 @@ body {
 
     /* ============ STEP 3: SOCKET.IO ============ */
     function connectSocket() {
-        // Cleanup existing socket
         if (state.socket) {
             try { state.socket.disconnect(); } catch (e) {}
             state.socket = null;
@@ -1396,7 +1395,10 @@ body {
         try {
             socket = io(API_BASE, {
                 path: '/socket.io',
-                transports: ['polling']
+                transports: ['polling'],
+                reconnection: true,
+                reconnectionAttempts: 3,
+                reconnectionDelay: 2000
             });
         } catch (err) {
             showToast('Koneksi socket gagal', 'error');
@@ -1450,7 +1452,6 @@ body {
                 var sm = statusMap[status] || { icon: 'fa-solid fa-spinner fa-spin', label: status };
 
                 updateProgressStatus('active', sm.icon, sm.label);
-
                 elProgressSpeed.querySelector('span').textContent = formatBytes(speed);
 
                 if (eta !== null && !isNaN(eta) && eta > 0) {
@@ -1479,7 +1480,6 @@ body {
 
                 var filename = complete.filename || 'unknown';
 
-                // Determine audio or video
                 var isAudio = AUDIO_FORMATS.indexOf(state.format) !== -1 ||
                               complete.quality === 'audio' ||
                               (filename && /\.(mp3|m4a|opus|wav|flac)$/i.test(filename));
@@ -1495,7 +1495,6 @@ body {
                 renderResult(filename, downloadUrl);
                 showToast('Download selesai', 'success');
 
-                // Scroll ke result
                 setTimeout(function () {
                     elResultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 200);
@@ -1513,16 +1512,9 @@ body {
             elProgressFill.classList.add('fail');
             updateProgressStatus('fail', 'fa-solid fa-circle-xmark', 'Koneksi socket gagal');
             elDownloadBtn.disabled = false;
-            showToast('Koneksi gagal, coba lagi', 'error');
+            showToast('Koneksi socket gagal', 'error');
         });
 
-        socket.on('disconnect', function () {
-            if (!state.completed) {
-                console.log('[socket] disconnected');
-            }
-        });
-
-        // Timeout 10 menit
         clearTimeout(state.timeoutTimer);
         state.timeoutTimer = setTimeout(function () {
             if (state.completed) return;
@@ -1582,7 +1574,7 @@ body {
         document.body.removeChild(ta);
     }
 
-    /* ============ EVENT BINDING ============ */
+    /* ============ EVENTS ============ */
     elUrlInput.addEventListener('input', function () {
         elClearBtn.classList.toggle('show', elUrlInput.value.length > 0);
     });
@@ -1603,13 +1595,11 @@ body {
     elPreviewBtn.addEventListener('click', doPreview);
     elDownloadBtn.addEventListener('click', startDownload);
 
-    // Cleanup on unload
     window.addEventListener('beforeunload', function () {
         try { if (state.socket) state.socket.disconnect(); } catch (e) {}
         clearTimeout(state.timeoutTimer);
     });
 
-    /* ============ INIT ============ */
     setStatus('Siap', 'online');
     console.log('[All in One Downloader] loaded');
 
@@ -1617,4 +1607,4 @@ body {
 </script>
 
 </body>
-          </html>
+</html>
