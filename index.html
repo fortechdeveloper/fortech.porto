@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<!-- ============================================================
+     FIRSTTOOL FORTECH - BERANDA UTAMA
+     Developer : FortechDev
+     Executor  : Fortech Executor
+     Stack     : HTML5 + CSS3 + Vanilla JS
+     Theme     : Black & Red (Smooth, Modern, Mobile First)
+     ============================================================ -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+<meta name="theme-color" content="#0a0a0a" />
+<meta name="description" content="FirstTool Fortech - Kumpulan tools downloader & deployer dalam satu tempat. Dibuat oleh FortechDev." />
+<meta name="author" content="FortechDev" />
+<meta name="robots" content="index, follow" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>FirstTool Fortech — All In One Tools</title>
+
+<!-- ===================== FONT AWESOME ===================== -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- ===================== GOOGLE FONTS ===================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   RESET & GLOBAL
+   ============================================================ */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: #0a0a0a;
+    color: #e8e8e8;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.6;
+    font-size: 15px;
+    letter-spacing: 0.2px;
+    background-image:
+        radial-gradient(circle at 15% 15%, rgba(220, 20, 60, 0.10) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(255, 40, 60, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(120, 0, 20, 0.05) 0%, transparent 60%);
+    background-attachment: fixed;
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #dc143c, #8b0000);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ff2d55, #b3001b);
+}
+
+/* ============================================================
+   BACKGROUND ANIMATED ORBS
+   ============================================================ */
+.bg-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+    animation: orbFloat 18s ease-in-out infinite;
+}
+
+.orb-1 {
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, #dc143c 0%, transparent 70%);
+    top: -80px;
+    left: -80px;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, #ff1f4b 0%, transparent 70%);
+    bottom: -60px;
+    right: -60px;
+    animation-delay: -6s;
+}
+
+.orb-3 {
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, #8b0000 0%, transparent 70%);
+    top: 45%;
+    right: -100px;
+    animation-delay: -12s;
+}
+
+@keyframes orbFloat {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    33% {
+        transform: translate(30px, -40px) scale(1.08);
+    }
+    66% {
+        transform: translate(-25px, 30px) scale(0.95);
+    }
+}
+
+/* ============================================================
+   GRID PATTERN OVERLAY
+   ============================================================ */
+.grid-overlay {
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(220, 20, 60, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(220, 20, 60, 0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    pointer-events: none;
+    z-index: 0;
+    mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 90%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 90%);
+}
+
+/* ============================================================
+   NOISE TEXTURE
+   ============================================================ */
+.noise {
+    position: fixed;
+    inset: 0;
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   MAIN WRAPPER
+   ============================================================ */
+.wrapper {
+    position: relative;
+    z-index: 5;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 22px 16px 40px;
+    animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   HEADER / TOP BAR
+   ============================================================ */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(22, 22, 22, 0.85), rgba(15, 15, 15, 0.85));
+    border: 1px solid rgba(220, 20, 60, 0.18);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    margin-bottom: 26px;
+}
+
+.brand-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-mini-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff2d55;
+    box-shadow: 0 0 10px #ff2d55, 0 0 20px rgba(255, 45, 85, 0.5);
+    animation: pulseDot 1.8s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.35);
+        opacity: 0.6;
+    }
+}
+
+.brand-mini-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #cfcfcf;
+    text-transform: uppercase;
+}
+
+.brand-mini-text span {
+    color: #ff2d55;
+}
+
+.status-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: rgba(220, 20, 60, 0.10);
+    border: 1px solid rgba(220, 20, 60, 0.28);
+    color: #ff5c7a;
+    text-transform: uppercase;
+}
+
+.status-chip i {
+    font-size: 8px;
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero {
+    text-align: center;
+    padding: 26px 14px 32px;
+    position: relative;
+}
+
+.logo-frame {
+    width: 118px;
+    height: 118px;
+    margin: 0 auto 20px;
+    position: relative;
+    border-radius: 30px;
+    padding: 3px;
+    background: linear-gradient(140deg, #ff2d55 0%, #8b0000 45%, #2a0008 100%);
+    box-shadow:
+        0 0 0 1px rgba(255, 45, 85, 0.35),
+        0 14px 42px rgba(220, 20, 60, 0.35),
+        0 0 60px rgba(220, 20, 60, 0.22);
+    animation: logoGlow 4s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+    0%, 100% {
+        box-shadow:
+            0 0 0 1px rgba(255, 45, 85, 0.35),
+            0 14px 42px rgba(220, 20, 60, 0.35),
+            0 0 60px rgba(220, 20, 60, 0.22);
+    }
+    50% {
+        box-shadow:
+            0 0 0 1px rgba(255, 45, 85, 0.55),
+            0 14px 52px rgba(220, 20, 60, 0.5),
+            0 0 90px rgba(220, 20, 60, 0.35);
+    }
+}
+
+.logo-frame::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 36px;
+    border: 1px dashed rgba(255, 45, 85, 0.28);
+    animation: spinSlow 22s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes spinSlow {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.logo-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 27px;
+    overflow: hidden;
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.logo-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.logo-fallback {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ff2d55, #8b0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
+}
+
+.hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    line-height: 1.25;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #ffffff 0%, #ff8fa3 40%, #dc143c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 40px rgba(220, 20, 60, 0.25);
+}
+
+.hero-title .accent {
+    display: block;
+    font-size: 22px;
+    letter-spacing: 3px;
+    margin-top: 4px;
+}
+
+.hero-subtitle {
+    font-size: 13px;
+    color: #9a9a9a;
+    max-width: 460px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+.hero-divider {
+    width: 90px;
+    height: 3px;
+    margin: 22px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, #ff2d55, transparent);
+    box-shadow: 0 0 14px rgba(255, 45, 85, 0.7);
+}
+
+/* ============================================================
+   ABOUT ME BUTTON (BIG)
+   ============================================================ */
+.about-section {
+    margin: 8px 0 34px;
+}
+
+.about-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    padding: 22px 24px;
+    border: none;
+    border-radius: 22px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #ffffff;
+    text-transform: uppercase;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff2d55 0%, #c40030 45%, #7a0018 100%);
+    box-shadow:
+        0 12px 34px rgba(220, 20, 60, 0.45),
+        0 0 0 1px rgba(255, 45, 85, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    isolation: isolate;
+}
+
+.about-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.28) 50%, transparent 80%);
+    transform: translateX(-120%);
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1;
+}
+
+.about-btn:active {
+    transform: scale(0.97);
+}
+
+.about-btn:hover {
+    box-shadow:
+        0 16px 42px rgba(220, 20, 60, 0.62),
+        0 0 0 1px rgba(255, 45, 85, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.about-btn:hover::before {
+    transform: translateX(120%);
+}
+
+.about-btn-icon {
+    position: relative;
+    z-index: 2;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(6px);
+}
+
+.about-btn-text {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.about-btn-text small {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    opacity: 0.82;
+    text-transform: uppercase;
+}
+
+.about-btn-text strong {
+    font-size: 17.5px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.about-btn-arrow {
+    position: relative;
+    z-index: 2;
+    margin-left: auto;
+    font-size: 18px;
+    opacity: 0.9;
+    transition: transform 0.3s ease;
+}
+
+.about-btn:hover .about-btn-arrow {
+    transform: translateX(5px);
+}
+
+/* ============================================================
+   SECTION HEADER
+   ============================================================ */
+.section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 4px 18px;
+}
+
+.section-head-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(220, 20, 60, 0.45), transparent);
+}
+
+.section-head-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #ff5c7a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.section-head-title i {
+    font-size: 13px;
+}
+
+/* ============================================================
+   TOOLS GRID
+   ============================================================ */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px;
+    margin-bottom: 34px;
+}
+
+/* ============================================================
+   TOOL CARD
+   ============================================================ */
+.tool-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px 15px 16px;
+    border-radius: 20px;
+    background: linear-gradient(160deg, rgba(26, 26, 26, 0.92) 0%, rgba(14, 14, 14, 0.92) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+    overflow: hidden;
+    transition:
+        transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.32s ease,
+        box-shadow 0.32s ease;
+    cursor: pointer;
+    isolation: isolate;
+}
+
+.tool-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, var(--glow, rgba(255, 45, 85, 0.22)), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    z-index: -1;
+}
+
+.tool-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent, #ff2d55), transparent);
+    opacity: 0.55;
+    transition: opacity 0.35s ease;
+}
+
+.tool-card:active {
+    transform: scale(0.97);
+}
+
+@media (hover: hover) {
+    .tool-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--border-hover, rgba(255, 45, 85, 0.4));
+        box-shadow:
+            0 18px 40px rgba(0, 0, 0, 0.62),
+            0 0 34px var(--glow, rgba(255, 45, 85, 0.28)),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .tool-card:hover::before {
+        opacity: 1;
+    }
+
+    .tool-card:hover::after {
+        opacity: 1;
+    }
+
+    .tool-card:hover .tool-icon {
+        transform: translateY(-2px) rotate(-4deg) scale(1.06);
+    }
+
+    .tool-card:hover .tool-arrow {
+        transform: translateX(4px);
+        opacity: 1;
+    }
+}
+
+.tool-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: var(--icon-bg, linear-gradient(145deg, rgba(255, 45, 85, 0.16), rgba(139, 0, 0, 0.12)));
+    border: 1px solid var(--icon-border, rgba(255, 45, 85, 0.24));
+    color: var(--accent, #ff2d55);
+    text-shadow: 0 0 16px var(--glow, rgba(255, 45, 85, 0.55));
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.tool-body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+}
+
+.tool-name {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #f2f2f2;
+    letter-spacing: 0.4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tool-desc {
+    font-size: 10.5px;
+    color: #7d7d7d;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    line-height: 1.4;
+}
+
+.tool-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2px;
+}
+
+.tool-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 999px;
+    color: var(--accent, #ff2d55);
+    background: var(--icon-bg, rgba(255, 45, 85, 0.12));
+    border: 1px solid var(--icon-border, rgba(255, 45, 85, 0.22));
+}
+
+.tool-arrow {
+    font-size: 11px;
+    color: var(--accent, #ff2d55);
+    opacity: 0.55;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ============================================================
+   PER-CARD ACCENT COLORS
+   ============================================================ */
+.card-tiktok {
+    --accent: #25f4ee;
+    --glow: rgba(37, 244, 238, 0.28);
+    --border-hover: rgba(37, 244, 238, 0.45);
+    --icon-bg: linear-gradient(145deg, rgba(37, 244, 238, 0.14), rgba(254, 44, 85, 0.10));
+    --icon-border: rgba(37, 244, 238, 0.28);
+}
+
+.card-instagram {
+    --accent: #e1306c;
+    --glow: rgba(225, 48, 108, 0.30);
+    --border-hover: rgba(225, 48, 108, 0.5);
+    --icon-bg: linear-gradient(145deg, rgba(225, 48, 108, 0.16), rgba(253, 178, 44, 0.10));
+    --icon-border: rgba(225, 48, 108, 0.3);
+}
+
+.card-pinterest {
+    --accent: #e60023;
+    --glow: rgba(230, 0, 35, 0.30);
+    --border-hover: rgba(230, 0, 35, 0.5);
+    --icon-bg: linear-gradient(145deg, rgba(230, 0, 35, 0.16), rgba(139, 0, 0, 0.12));
+    --icon-border: rgba(230, 0, 35, 0.3);
+}
+
+.card-youtube {
+    --accent: #ff0033;
+    --glow: rgba(255, 0, 51, 0.30);
+    --border-hover: rgba(255, 0, 51, 0.5);
+    --icon-bg: linear-gradient(145deg, rgba(255, 0, 51, 0.16), rgba(139, 0, 0, 0.12));
+    --icon-border: rgba(255, 0, 51, 0.3);
+}
+
+.card-vercel {
+    --accent: #ffffff;
+    --glow: rgba(255, 255, 255, 0.20);
+    --border-hover: rgba(255, 255, 255, 0.35);
+    --icon-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.10), rgba(120, 120, 120, 0.06));
+    --icon-border: rgba(255, 255, 255, 0.18);
+}
+
+.card-netlify {
+    --accent: #00c7b7;
+    --glow: rgba(0, 199, 183, 0.28);
+    --border-hover: rgba(0, 199, 183, 0.45);
+    --icon-bg: linear-gradient(145deg, rgba(0, 199, 183, 0.15), rgba(0, 100, 92, 0.10));
+    --icon-border: rgba(0, 199, 183, 0.28);
+}
+
+/* ============================================================
+   STATS STRIP
+   ============================================================ */
+.stats-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 34px;
+    padding: 16px 12px;
+    border-radius: 20px;
+    background: linear-gradient(160deg, rgba(22, 22, 22, 0.9), rgba(13, 13, 13, 0.9));
+    border: 1px solid rgba(220, 20, 60, 0.15);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+}
+
+.stat-item {
+    text-align: center;
+    position: relative;
+}
+
+.stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 20%;
+    bottom: 20%;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(220, 20, 60, 0.3), transparent);
+}
+
+.stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff, #ff5c7a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+}
+
+.stat-label {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #767676;
+    margin-top: 4px;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+    text-align: center;
+    padding: 26px 10px 8px;
+    border-top: 1px solid rgba(220, 20, 60, 0.13);
+    margin-top: 12px;
+}
+
+.footer-brand {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.6px;
+    text-transform: uppercase;
+    color: #8a8a8a;
+    margin-bottom: 8px;
+}
+
+.footer-brand span {
+    color: #ff2d55;
+    text-shadow: 0 0 14px rgba(255, 45, 85, 0.6);
+}
+
+.footer-copy {
+    font-size: 10.5px;
+    color: #575757;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+}
+
+.footer-copy i {
+    color: #ff2d55;
+    font-size: 9px;
+    margin: 0 3px;
+    animation: heartBeat 1.6s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes heartBeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.22);
+    }
+    50% {
+        transform: scale(1);
+    }
+    75% {
+        transform: scale(1.18);
+    }
+}
+
+.footer-ver {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #ff5c7a;
+    background: rgba(220, 20, 60, 0.09);
+    border: 1px solid rgba(220, 20, 60, 0.26);
+}
+
+.footer-ver i {
+    font-size: 8px;
+}
+
+/* ============================================================
+   TOAST / REDIRECT OVERLAY
+   ============================================================ */
+.redirect-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 18px;
+    background: rgba(6, 6, 6, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.redirect-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.redirect-spinner {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 45, 85, 0.15);
+    border-top-color: #ff2d55;
+    border-right-color: #8b0000;
+    animation: spin 0.85s linear infinite;
+    box-shadow: 0 0 26px rgba(255, 45, 85, 0.35);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.redirect-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: #ff5c7a;
+    animation: blink 1.3s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.45;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE — SMALL PHONES
+   ============================================================ */
+@media (max-width: 380px) {
+    .wrapper {
+        padding: 16px 12px 34px;
+    }
+
+    .hero-title {
+        font-size: 22px;
+    }
+
+    .hero-title .accent {
+        font-size: 18px;
+        letter-spacing: 2px;
+    }
+
+    .logo-frame {
+        width: 100px;
+        height: 100px;
+        border-radius: 26px;
+    }
+
+    .logo-inner {
+        border-radius: 23px;
+    }
+
+    .about-btn {
+        padding: 18px 18px;
+        font-size: 15px;
+        gap: 11px;
+    }
+
+    .about-btn-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 17px;
+    }
+
+    .about-btn-text strong {
+        font-size: 15.5px;
+    }
+
+    .tools-grid {
+        gap: 11px;
+    }
+
+    .tool-card {
+        padding: 15px 12px 14px;
+    }
+
+    .tool-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        border-radius: 13px;
+    }
+
+    .tool-name {
+        font-size: 12.5px;
+    }
+
+    .tool-desc {
+        font-size: 10px;
+    }
+
+    .stat-value {
+        font-size: 17px;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET & DESKTOP
+   ============================================================ */
+@media (min-width: 640px) {
+    .wrapper {
+        padding: 30px 22px 50px;
+    }
+
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .hero-title {
+        font-size: 34px;
+    }
+
+    .hero-title .accent {
+        font-size: 27px;
+        letter-spacing: 5px;
+    }
+
+    .logo-frame {
+        width: 138px;
+        height: 138px;
+        border-radius: 34px;
+    }
+
+    .logo-inner {
+        border-radius: 31px;
+    }
+
+    .about-btn {
+        padding: 26px 30px;
+        font-size: 18px;
+    }
+
+    .tool-card {
+        padding: 22px 20px 20px;
+    }
+
+    .tool-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 25px;
+    }
+
+    .tool-name {
+        font-size: 15px;
+    }
+
+    .tool-desc {
+        font-size: 11.5px;
+    }
+
+    .stat-value {
+        font-size: 25px;
+    }
+}
+
+@media (min-width: 900px) {
+    .wrapper {
+        max-width: 880px;
+    }
+
+    .tools-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== BACKGROUND LAYERS ===================== -->
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
+<div class="bg-orb orb-3"></div>
+<div class="grid-overlay"></div>
+<div class="noise"></div>
+
+<!-- ===================== REDIRECT OVERLAY ===================== -->
+<div class="redirect-overlay" id="redirectOverlay">
+    <div class="redirect-spinner"></div>
+    <div class="redirect-text">Membuka Porto...</div>
+</div>
+
+<!-- ===================== MAIN WRAPPER ===================== -->
+<div class="wrapper">
+
+    <!-- ============ TOP BAR ============ -->
+    <div class="top-bar">
+        <div class="brand-mini">
+            <span class="brand-mini-dot"></span>
+            <span class="brand-mini-text">First<span>Tool</span></span>
+        </div>
+        <div class="status-chip">
+            <i class="fa-solid fa-circle"></i>
+            Online
+        </div>
+    </div>
+
+    <!-- ============ HERO SECTION ============ -->
+    <header class="hero">
+        <div class="logo-frame">
+            <div class="logo-inner">
+                <img src="logo.png" alt="FortechDev Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'logo-fallback\'>FT</div>';" />
+            </div>
+        </div>
+
+        <h1 class="hero-title">
+            FirstTool Fortech
+            <span class="accent">All In One</span>
+        </h1>
+
+        <p class="hero-subtitle">
+            Kumpulan tools downloader &amp; deployer dalam satu tempat.
+            Cepat, ringan, dan gratis untuk semua.
+        </p>
+
+        <div class="hero-divider"></div>
+    </header>
+
+    <!-- ============ ABOUT ME BUTTON ============ -->
+    <section class="about-section">
+        <button type="button" class="about-btn" id="aboutBtn" aria-label="Buka halaman About Me">
+            <span class="about-btn-icon">
+                <i class="fa-solid fa-user-astronaut"></i>
+            </span>
+            <span class="about-btn-text">
+                <small>Tentang</small>
+                <strong>About Me</strong>
+            </span>
+            <span class="about-btn-arrow">
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </span>
+        </button>
+    </section>
+
+    <!-- ============ TOOLS SECTION ============ -->
+    <div class="section-head">
+        <span class="section-head-title">
+            <i class="fa-solid fa-bolt"></i>
+            Downloader
+        </span>
+        <span class="section-head-line"></span>
+    </div>
+
+    <div class="tools-grid">
+
+        <!-- TikTok Downloader -->
+        <div class="tool-card card-tiktok" data-tool="tiktok">
+            <div class="tool-icon">
+                <i class="fa-brands fa-tiktok"></i>
+            </div>
+            <div class="tool-body">
+                <div class="tool-name">TikTok Download</div>
+                <div class="tool-desc">Download video TikTok tanpa watermark.</div>
+            </div>
+            <div class="tool-foot">
+                <span class="tool-tag">Video</span>
+                <span class="tool-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <!-- Instagram Downloader -->
+        <div class="tool-card card-instagram" data-tool="instagram">
+            <div class="tool-icon">
+                <i class="fa-brands fa-instagram"></i>
+            </div>
+            <div class="tool-body">
+                <div class="tool-name">Instagram Download</div>
+                <div class="tool-desc">Simpan reels, foto, dan video IG.</div>
+            </div>
+            <div class="tool-foot">
+                <span class="tool-tag">Reels</span>
+                <span class="tool-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <!-- Pinterest Downloader -->
+        <div class="tool-card card-pinterest" data-tool="pinterest">
+            <div class="tool-icon">
+                <i class="fa-brands fa-pinterest-p"></i>
+            </div>
+            <div class="tool-body">
+                <div class="tool-name">Pinterest Download</div>
+                <div class="tool-desc">Ambil gambar &amp; video Pinterest HD.</div>
+            </div>
+            <div class="tool-foot">
+                <span class="tool-tag">Image</span>
+                <span class="tool-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <!-- YouTube Downloader -->
+        <div class="tool-card card-youtube" data-tool="youtube">
+            <div class="tool-icon">
+                <i class="fa-brands fa-youtube"></i>
+            </div>
+            <div class="tool-body">
+                <div class="tool-name">YouTube Download</div>
+                <div class="tool-desc">Unduh video &amp; audio dari YouTube.</div>
+            </div>
+            <div class="tool-foot">
+                <span class="tool-tag">MP4/MP3</span>
+                <span class="tool-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============ DEPLOYER SECTION ============ -->
+    <div class="section-head">
+        <span class="section-head-title">
+            <i class="fa-solid fa-rocket"></i>
+            Deployer
+        </span>
+        <span class="section-head-line"></span>
+    </div>
+
+    <div class="tools-grid">
+
+        <!-- Vercel Deployer -->
+        <div class="tool-card card-vercel" data-tool="vercel">
+            <div class="tool-icon">
+                <i class="fa-brands fa-vercel"></i>
+            </div>
+            <div class="tool-body">
+                <div class="tool-name">Vercel Deployer</div>
+                <div class="tool-desc">Deploy project frontend langsung live.</div>
+            </div>
+            <div class="tool-foot">
+                <span class="tool-tag">Hosting</span>
+                <span class="tool-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <!-- Netlify Deployer -->
+        <div class="tool-card card-netlify" data-tool="netlify">
+            <div class="tool-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <div class="tool-body">
+                <div class="tool-name">Netlify Deployer</div>
+                <div class="tool-desc">Publish static site langsung dari sini.</div>
+            </div>
+            <div class="tool-foot">
+                <span class="tool-tag">Hosting</span>
+                <span class="tool-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============ STATS STRIP ============ -->
+    <div class="stats-strip">
+        <div class="stat-item">
+            <div class="stat-value">6</div>
+            <div class="stat-label">Tools</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Free</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">Online</div>
+        </div>
+    </div>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <div class="footer-brand">
+            First<span>Tool</span> Fortech
+        </div>
+        <div class="footer-copy">
+            &copy; <span id="year"></span> FortechDev. All rights reserved.<br />
+            Made with <i class="fa-solid fa-heart"></i> in Indonesia
+        </div>
+        <div class="footer-ver">
+            <i class="fa-solid fa-code-branch"></i>
+            v1.0.0 &middot; Executor Build
+        </div>
+    </footer>
+
+</div>
+
+<!-- ===================== SCRIPT ===================== -->
+<script>
+/* ============================================================
+   FIRSTTOOL FORTECH — MAIN SCRIPT
+   Fokus sesi ini: Redirect About Me -> porto.html
+   ============================================================ */
+(function () {
+    'use strict';
+
+    /* ============================================================
+       1. AUTO YEAR FOOTER
+       ============================================================ */
+    var yearEl = document.getElementById('year');
+    if (yearEl) {
+        yearEl.textContent = new Date().getFullYear();
+    }
+
+    /* ============================================================
+       2. ABOUT ME BUTTON — REDIRECT KE porto.html
+       ============================================================ */
+    var aboutBtn = document.getElementById('aboutBtn');
+    var overlay = document.getElementById('redirectOverlay');
+
+    function goToPorto() {
+        if (overlay) {
+            overlay.classList.add('active');
+        }
+        // Delay singkat biar animasi overlay kelihatan dulu
+        window.setTimeout(function () {
+            window.location.href = 'porto.html';
+        }, 420);
+    }
+
+    if (aboutBtn) {
+        aboutBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            goToPorto();
+        });
+    }
+
+    /* ============================================================
+       3. TOOL CARDS — PLACEHOLDER HANDLER
+       (belum ada fungsi, cuma efek visual sementara)
+       ============================================================ */
+    var toolCards = document.querySelectorAll('.tool-card');
+    toolCards.forEach(function (card) {
+        card.addEventListener('click', function () {
+            // Belum ada aksi. Nanti diisi per tool.
+            // Contoh nanti:
+            //   tiktok    -> open modal input URL
+            //   instagram -> open modal input URL
+            //   youtube   -> open modal input URL
+            //   vercel    -> open deploy panel
+            //   netlify   -> open deploy panel
+        });
+    });
+
+    /* ============================================================
+       4. PREVENT DOUBLE TAP ZOOM DI MOBILE (SAFE)
+       ============================================================ */
+    var lastTouch = 0;
+    document.addEventListener('touchend', function (e) {
+        var now = Date.now();
+        if (now - lastTouch <= 300) {
+            e.preventDefault();
+        }
+        lastTouch = now;
+    }, { passive: false });
+
+    /* ============================================================
+       5. LOG
+       ============================================================ */
+    console.log(
+        '%c FIRSTTOOL FORTECH %c v1.0.0 ',
+        'background:#ff2d55;color:#fff;font-weight:700;padding:4px 8px;border-radius:4px 0 0 4px;',
+        'background:#0a0a0a;color:#ff5c7a;font-weight:700;padding:4px 8px;border-radius:0 4px 4px 0;'
+    );
+
+})();
+</script>
+
+</body>
+  </html>
