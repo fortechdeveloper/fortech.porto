@@ -5,7 +5,7 @@
      OWNER        : Yudha Pramudya (Fortech Dev)
      FILE         : index.html  (HTML + CSS + JS ALL-IN-ONE)
      ASSETS       : logo.png  |  saya.jpg
-     VERSION      : 6.0.0 — NO LOADER + RED THEME
+     VERSION      : 7.0.0 — BACK BUTTON + RED THEME
      ============================================================ -->
 <html lang="id">
 <head>
@@ -29,7 +29,7 @@
    03. BASE
    04. SCROLLBAR
    05. BACKGROUND
-   06. HEADER
+   06. HEADER + BACK BUTTON
    07. HERO
    08. ABOUT — FLOAT LAYOUT
    09. INFO
@@ -114,7 +114,9 @@ a:hover{opacity:.8;}
     background:radial-gradient(ellipse at center,transparent 55%,rgba(10,10,13,.75) 100%);
 }
 
-/* ---------- 06. HEADER ---------- */
+/* ============================================================
+   06. HEADER + BACK BUTTON
+   ============================================================ */
 .site-header{
     position:sticky;top:0;z-index:500;width:100%;
     padding:14px 22px;
@@ -123,7 +125,59 @@ a:hover{opacity:.8;}
     backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
     border-bottom:1px solid var(--line);
 }
-.brand{display:flex;align-items:center;gap:12px;opacity:1 !important;}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    min-width:0;
+    flex:1;
+}
+
+/* Tombol BACK ke index.html */
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:11px;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--fg-2);
+    padding:9px 14px;
+    border:1px solid var(--line-2);
+    border-radius:100px;
+    background:rgba(255,255,255,.02);
+    transition:all .3s cubic-bezier(.16,1,.3,1);
+    opacity:1 !important;
+    white-space:nowrap;
+    flex-shrink:0;
+}
+.back-btn svg{
+    width:14px;
+    height:14px;
+    transition:transform .3s cubic-bezier(.16,1,.3,1);
+    flex-shrink:0;
+}
+.back-btn:hover{
+    color:#fff;
+    border-color:var(--accent);
+    background:var(--accent-soft);
+    box-shadow:0 0 20px var(--accent-glow);
+    opacity:1;
+}
+.back-btn:hover svg{
+    transform:translateX(-3px);
+}
+.back-btn:active{
+    transform:scale(.96);
+}
+.back-btn .back-text{
+    display:inline;
+}
+
+/* Brand */
+.brand{display:flex;align-items:center;gap:12px;opacity:1 !important;min-width:0;}
 .brand-logo{
     width:40px;height:40px;object-fit:contain;
     border-radius:10px;
@@ -131,12 +185,13 @@ a:hover{opacity:.8;}
     padding:5px;
     background:rgba(230,57,70,.06);
     transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s;
+    flex-shrink:0;
 }
 .brand:hover .brand-logo{
     transform:rotate(-5deg) scale(1.06);
     box-shadow:0 0 20px var(--accent-glow);
 }
-.brand-text{display:flex;flex-direction:column;line-height:1.25;}
+.brand-text{display:flex;flex-direction:column;line-height:1.25;min-width:0;}
 .brand-name{font-size:14.5px;font-weight:700;letter-spacing:.2px;color:var(--fg);}
 .brand-sub{font-size:10px;color:var(--fg-4);letter-spacing:1.6px;text-transform:uppercase;font-weight:500;}
 
@@ -144,6 +199,7 @@ a:hover{opacity:.8;}
     display:flex;align-items:center;gap:8px;
     font-size:10.5px;letter-spacing:1.5px;color:var(--fg-3);
     text-transform:uppercase;font-weight:500;
+    flex-shrink:0;
 }
 .status-dot{
     width:7px;height:7px;border-radius:50%;background:#4ade80;
@@ -545,8 +601,27 @@ a:hover{opacity:.8;}
     body{font-size:14px;}
     .wrap{padding:42px 18px 80px;}
 
-    .site-header{padding:12px 16px;}
+    .site-header{padding:12px 16px;gap:10px;}
     .header-status{display:none;}
+
+    /* Back button — versi compact di HP */
+    .back-btn{
+        padding:8px 12px;
+        font-size:0;
+        gap:0;
+        width:36px;
+        height:36px;
+        justify-content:center;
+    }
+    .back-btn svg{
+        width:16px;
+        height:16px;
+    }
+    .back-btn .back-text{
+        display:none;
+    }
+
+    .brand{gap:10px;}
     .brand-logo{width:36px;height:36px;padding:4px;}
     .brand-name{font-size:13.5px;}
     .brand-sub{font-size:9.5px;}
@@ -605,6 +680,7 @@ a:hover{opacity:.8;}
     .photo-card{width:112px;margin-right:12px;}
     .intro-lead{font-size:12.5px;}
     .about p.para{font-size:12.5px;}
+    .brand-sub{display:none;}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -628,13 +704,26 @@ a:hover{opacity:.8;}
 
 <!-- HEADER -->
 <header class="site-header">
-    <a href="#top" class="brand">
-        <img src="logo.png" alt="Fortech Dev" class="brand-logo" />
-        <div class="brand-text">
-            <span class="brand-name">Fortech Dev</span>
-            <span class="brand-sub">Yogyakarta · ID</span>
-        </div>
-    </a>
+    <div class="header-left">
+        <!-- TOMBOL BACK — redirect ke index.html -->
+        <a href="index.html" class="back-btn" aria-label="Kembali ke Beranda">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span class="back-text">Back</span>
+        </a>
+
+        <!-- Brand -->
+        <a href="#top" class="brand">
+            <img src="logo.png" alt="Fortech Dev" class="brand-logo" />
+            <div class="brand-text">
+                <span class="brand-name">Fortech Dev</span>
+                <span class="brand-sub">Yogyakarta · ID</span>
+            </div>
+        </a>
+    </div>
+
     <div class="header-status">
         <span class="status-dot"></span>
         <span>Available</span>
@@ -710,7 +799,7 @@ a:hover{opacity:.8;}
             <div class="stat-lbl">Tahun Usia</div>
         </div>
         <div class="stat-card reveal d2">
-            <div class="stat-num" data-count="200" data-suffix="+">0</div>
+            <div class="stat-num" data-count="2" data-suffix="+">0</div>
             <div class="stat-lbl">Proyek Rilis</div>
         </div>
         <div class="stat-card reveal d3">
