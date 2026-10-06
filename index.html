@@ -3,15 +3,18 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#0d0d0d" />
-<title>FirstTool Fortech</title>
+<meta name="theme-color" content="#0a0a0a" />
+<title>FirstTool Fortech — All in One Tools</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
 <style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -19,42 +22,119 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #0d0d0d;
+    background: #0a0a0a;
     color: #e5e5e5;
     min-height: 100vh;
-    line-height: 1.55;
+    line-height: 1.6;
     font-size: 15px;
     overflow-x: hidden;
+    position: relative;
+    background-image:
+        radial-gradient(900px circle at 50% -20%, rgba(230, 57, 70, 0.14), transparent 55%),
+        radial-gradient(700px circle at 100% 100%, rgba(230, 57, 70, 0.06), transparent 55%);
+    background-attachment: fixed;
 }
 
-/* ============ LAYOUT ============ */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: #e63946; }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
 .container {
-    max-width: 680px;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 24px 16px 40px;
+    padding: 20px 16px 48px;
+    position: relative;
+    z-index: 2;
 }
 
-/* ============ HEADER ============ */
+/* ============================================================
+   ENTRANCE ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.94); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.anim { opacity: 0; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); animation-duration: 0.7s; }
+.anim-up   { animation-name: fadeUp; }
+.anim-in   { animation-name: fadeIn; }
+.anim-scale{ animation-name: scaleIn; }
+
+.d-1 { animation-delay: 0.05s; }
+.d-2 { animation-delay: 0.12s; }
+.d-3 { animation-delay: 0.20s; }
+.d-4 { animation-delay: 0.28s; }
+.d-5 { animation-delay: 0.36s; }
+.d-6 { animation-delay: 0.44s; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 14px;
-    background: #151515;
-    border: 1px solid #222;
+    background: rgba(20, 20, 20, 0.7);
+    border: 1px solid #1f1f1f;
     border-radius: 14px;
-    margin-bottom: 24px;
+    margin-bottom: 26px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .header-brand {
-    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13.5px;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     color: #f0f0f0;
+}
+
+.header-brand .logo-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #e63946, #8b1e28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0;
 }
 
 .header-brand span { color: #e63946; }
@@ -65,7 +145,11 @@ body {
     gap: 6px;
     font-size: 11px;
     font-weight: 500;
-    color: #9a9a9a;
+    color: #8a8a8a;
+    padding: 4px 9px;
+    border-radius: 100px;
+    background: rgba(34, 197, 94, 0.06);
+    border: 1px solid rgba(34, 197, 94, 0.18);
 }
 
 .header-status .dot {
@@ -73,25 +157,60 @@ body {
     height: 6px;
     background: #22c55e;
     border-radius: 50%;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
+    animation: pulse 2s ease-in-out infinite;
 }
 
-/* ============ HERO ============ */
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(1.3); }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
 .hero {
     text-align: center;
-    padding: 20px 8px 28px;
+    padding: 8px 8px 30px;
+}
+
+.logo-wrap {
+    width: 108px;
+    height: 108px;
+    margin: 0 auto 20px;
+    position: relative;
+    animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+}
+
+.logo-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border-radius: 30px;
+    background: radial-gradient(circle, rgba(230, 57, 70, 0.28), transparent 70%);
+    filter: blur(20px);
+    z-index: 0;
+    opacity: 0.85;
 }
 
 .logo {
-    width: 96px;
-    height: 96px;
-    margin: 0 auto 18px;
-    border-radius: 22px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
     overflow: hidden;
     background: #151515;
     border: 1px solid #262626;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
 }
 
 .logo img {
@@ -102,70 +221,119 @@ body {
 }
 
 .logo-fallback {
-    font-size: 28px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 30px;
     font-weight: 700;
-    color: #e63946;
-    letter-spacing: 1px;
+    background: linear-gradient(135deg, #e63946, #8b1e28);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .hero-title {
-    font-size: 24px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px;
     font-weight: 700;
     color: #ffffff;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.4px;
     margin-bottom: 8px;
+    line-height: 1.25;
 }
 
-.hero-title span { color: #e63946; }
+.hero-title span {
+    background: linear-gradient(135deg, #e63946, #ff6b78);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
 .hero-sub {
     font-size: 13.5px;
     color: #8a8a8a;
     max-width: 420px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.65;
 }
 
-/* ============ ABOUT BUTTON ============ */
+/* ============================================================
+   ABOUT BUTTON
+   ============================================================ */
 .about-wrap {
-    margin: 4px 0 28px;
+    margin: 0 0 32px;
 }
 
 .about-btn {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 14px;
     width: 100%;
     padding: 18px 20px;
-    background: linear-gradient(135deg, #e63946 0%, #b32a36 100%);
+    background: linear-gradient(135deg, #e63946 0%, #a82630 100%);
     border: none;
     border-radius: 16px;
     cursor: pointer;
     color: #ffffff;
     text-align: left;
     font-family: inherit;
-    box-shadow: 0 6px 20px rgba(230, 57, 70, 0.28);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    overflow: hidden;
+    box-shadow:
+        0 10px 30px rgba(230, 57, 70, 0.32),
+        0 0 0 1px rgba(230, 57, 70, 0.4) inset;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.3s ease;
+}
+
+.about-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.22) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.about-btn:hover::before {
+    transform: translateX(100%);
 }
 
 .about-btn:active {
-    transform: scale(0.98);
-    box-shadow: 0 3px 12px rgba(230, 57, 70, 0.35);
+    transform: scale(0.985);
+    box-shadow:
+        0 5px 18px rgba(230, 57, 70, 0.4),
+        0 0 0 1px rgba(230, 57, 70, 0.5) inset;
+}
+
+.about-btn:hover {
+    box-shadow:
+        0 14px 38px rgba(230, 57, 70, 0.5),
+        0 0 0 1px rgba(230, 57, 70, 0.6) inset;
 }
 
 .about-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
-    background: rgba(0, 0, 0, 0.18);
+    position: relative;
+    z-index: 2;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.22);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
     flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-btn:hover .about-icon {
+    transform: rotate(-6deg) scale(1.06);
 }
 
 .about-text {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -174,28 +342,39 @@ body {
 
 .about-text small {
     font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 1.2px;
+    font-weight: 600;
+    letter-spacing: 1.3px;
     text-transform: uppercase;
     opacity: 0.85;
 }
 
 .about-text strong {
-    font-size: 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px;
     font-weight: 700;
     letter-spacing: 0.2px;
 }
 
 .about-arrow {
+    position: relative;
+    z-index: 2;
     font-size: 15px;
     opacity: 0.9;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ============ SECTION TITLE ============ */
+.about-btn:hover .about-arrow {
+    transform: translateX(5px);
+}
+
+/* ============================================================
+   SECTION TITLE
+   ============================================================ */
 .section-title {
     display: flex;
     align-items: center;
     gap: 10px;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 1.6px;
@@ -204,39 +383,82 @@ body {
     margin: 0 4px 12px;
 }
 
+.section-title i {
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 7px;
+    background: rgba(230, 57, 70, 0.1);
+    border: 1px solid rgba(230, 57, 70, 0.18);
+}
+
 .section-title::after {
     content: '';
     flex: 1;
     height: 1px;
-    background: #1f1f1f;
+    background: linear-gradient(90deg, #1f1f1f, transparent);
 }
 
-.section-title i { font-size: 12px; }
-
-/* ============ TOOLS GRID ============ */
+/* ============================================================
+   GRID
+   ============================================================ */
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 11px;
-    margin-bottom: 28px;
+    margin-bottom: 30px;
 }
 
+/* ============================================================
+   CARD
+   ============================================================ */
 .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 12px;
     padding: 16px 14px;
-    background: #151515;
-    border: 1px solid #232323;
+    background: linear-gradient(160deg, #151515 0%, #111111 100%);
+    border: 1px solid #222;
     border-radius: 16px;
     cursor: pointer;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    overflow: hidden;
+    isolation: isolate;
+    transition:
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
+    -webkit-user-select: none;
     user-select: none;
+}
+
+/* subtle red gradient glow that appears on hover */
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(230, 57, 70, 0.18), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* top accent line */
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20%;
+    right: 20%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, var(--accent, #e63946), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease, left 0.4s ease, right 0.4s ease;
 }
 
 .card:active {
     transform: scale(0.98);
-    border-color: #e63946;
+    transition-duration: 0.1s;
 }
 
 .card-icon {
@@ -247,8 +469,14 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    background: #1c1c1c;
-    border: 1px solid #2a2a2a;
+    background: #1a1a1a;
+    border: 1px solid #262626;
+    color: var(--accent, #e63946);
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
 .card-body {
@@ -262,37 +490,88 @@ body {
     font-weight: 600;
     color: #f5f5f5;
     line-height: 1.3;
+    transition: color 0.25s ease;
 }
 
 .card-desc {
     font-size: 11px;
     color: #7a7a7a;
-    line-height: 1.4;
+    line-height: 1.45;
+    transition: color 0.25s ease;
 }
 
-/* ============ CARD ACCENTS ============ */
-.card-tiktok    .card-icon { color: #25f4ee; }
-.card-instagram .card-icon { color: #e1306c; }
-.card-pinterest .card-icon { color: #e60023; }
-.card-youtube   .card-icon { color: #ff0033; }
-.card-vercel    .card-icon { color: #ffffff; }
-.card-netlify   .card-icon { color: #00c7b7; }
+/* Desktop hover */
+@media (hover: hover) {
+    .card:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent, #e63946);
+        box-shadow:
+            0 16px 34px rgba(0, 0, 0, 0.55),
+            0 0 0 1px var(--accent, #e63946) inset,
+            0 0 28px -8px var(--accent, #e63946);
+    }
 
-/* ============ FOOTER ============ */
+    .card:hover::before { opacity: 1; }
+
+    .card:hover::after {
+        opacity: 1;
+        left: 10%;
+        right: 10%;
+    }
+
+    .card:hover .card-icon {
+        transform: translateY(-2px) scale(1.08);
+        background: color-mix(in srgb, var(--accent, #e63946) 14%, #1a1a1a);
+        border-color: var(--accent, #e63946);
+        box-shadow: 0 0 20px -4px var(--accent, #e63946);
+    }
+
+    .card:hover .card-title { color: #ffffff; }
+    .card:hover .card-desc  { color: #a5a5a5; }
+}
+
+/* Stagger entrance for cards */
+.card {
+    opacity: 0;
+    animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.grid .card:nth-child(1) { animation-delay: 0.10s; }
+.grid .card:nth-child(2) { animation-delay: 0.16s; }
+.grid .card:nth-child(3) { animation-delay: 0.22s; }
+.grid .card:nth-child(4) { animation-delay: 0.28s; }
+.grid:nth-of-type(2) .card:nth-child(1) { animation-delay: 0.34s; }
+.grid:nth-of-type(2) .card:nth-child(2) { animation-delay: 0.40s; }
+
+/* ============================================================
+   CARD ACCENT COLORS
+   ============================================================ */
+.card-tiktok    { --accent: #25f4ee; }
+.card-instagram { --accent: #e1306c; }
+.card-pinterest { --accent: #e60023; }
+.card-youtube   { --accent: #ff0033; }
+.card-vercel    { --accent: #ffffff; }
+.card-netlify   { --accent: #00c7b7; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
 .footer {
     text-align: center;
-    padding: 24px 10px 0;
-    border-top: 1px solid #1c1c1c;
+    padding: 28px 10px 0;
+    border-top: 1px solid #181818;
     margin-top: 8px;
+    position: relative;
 }
 
 .footer-brand {
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 1.4px;
     text-transform: uppercase;
     color: #6f6f6f;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .footer-brand span { color: #e63946; }
@@ -307,21 +586,34 @@ body {
     color: #e63946;
     font-size: 9px;
     margin: 0 2px;
+    animation: beat 1.6s ease-in-out infinite;
+    display: inline-block;
 }
 
-/* ============ OVERLAY REDIRECT ============ */
+@keyframes beat {
+    0%, 100% { transform: scale(1); }
+    25%      { transform: scale(1.22); }
+    50%      { transform: scale(1); }
+    75%      { transform: scale(1.16); }
+}
+
+/* ============================================================
+   REDIRECT OVERLAY
+   ============================================================ */
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(13, 13, 13, 0.94);
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    gap: 16px;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
     z-index: 99;
 }
 
@@ -331,12 +623,13 @@ body {
 }
 
 .spinner {
-    width: 34px;
-    height: 34px;
-    border: 3px solid #232323;
+    width: 36px;
+    height: 36px;
+    border: 3px solid #1f1f1f;
     border-top-color: #e63946;
     border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    animation: spin 0.75s linear infinite;
+    box-shadow: 0 0 24px -6px rgba(230, 57, 70, 0.5);
 }
 
 @keyframes spin {
@@ -344,32 +637,46 @@ body {
 }
 
 .overlay-text {
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 1.4px;
+    font-weight: 600;
+    letter-spacing: 1.6px;
     text-transform: uppercase;
     color: #e63946;
+    animation: fadeInOut 1.5s ease-in-out infinite;
 }
 
-/* ============ RESPONSIVE ============ */
+@keyframes fadeInOut {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 360px) {
-    .hero-title { font-size: 21px; }
-    .logo { width: 84px; height: 84px; border-radius: 18px; }
+    .hero-title { font-size: 22px; }
+    .logo-wrap { width: 92px; height: 92px; }
+    .logo { border-radius: 20px; }
     .card { padding: 14px 12px; }
-    .card-icon { width: 40px; height: 40px; font-size: 18px; border-radius: 10px; }
+    .card-icon { width: 40px; height: 40px; font-size: 18px; }
     .card-title { font-size: 12.5px; }
     .card-desc { font-size: 10.5px; }
-    .about-btn { padding: 16px 16px; }
-    .about-text strong { font-size: 15px; }
+    .about-btn { padding: 16px 16px; gap: 12px; }
+    .about-icon { width: 38px; height: 38px; font-size: 16px; }
+    .about-text strong { font-size: 15.5px; }
 }
 
 @media (min-width: 640px) {
-    .container { padding: 32px 22px 52px; }
-    .hero-title { font-size: 30px; }
-    .logo { width: 112px; height: 112px; border-radius: 26px; }
-    .grid { gap: 14px; }
-    .card { padding: 20px 18px; }
-    .card-icon { width: 50px; height: 50px; font-size: 22px; }
+    .container { padding: 32px 22px 56px; }
+    .hero { padding: 12px 8px 36px; }
+    .hero-title { font-size: 32px; }
+    .hero-sub { font-size: 14.5px; }
+    .logo-wrap { width: 122px; height: 122px; }
+    .logo { border-radius: 26px; }
+    .grid { gap: 14px; margin-bottom: 36px; }
+    .card { padding: 20px 18px; gap: 14px; }
+    .card-icon { width: 50px; height: 50px; font-size: 22px; border-radius: 14px; }
     .card-title { font-size: 15px; }
     .card-desc { font-size: 12px; }
     .about-btn { padding: 22px 24px; }
@@ -378,8 +685,17 @@ body {
 }
 
 @media (min-width: 900px) {
-    .container { max-width: 820px; }
+    .container { max-width: 860px; }
     .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
 }
 </style>
 </head>
@@ -395,8 +711,11 @@ body {
 <div class="container">
 
     <!-- Header -->
-    <div class="header">
-        <div class="header-brand">First<span>Tool</span> Fortech</div>
+    <div class="header anim anim-up d-1">
+        <div class="header-brand">
+            <span class="logo-dot">FT</span>
+            First<span>Tool</span>
+        </div>
         <div class="header-status">
             <span class="dot"></span>
             Online
@@ -405,15 +724,17 @@ body {
 
     <!-- Hero -->
     <div class="hero">
-        <div class="logo">
-            <img src="logo.png" alt="Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'logo-fallback\'>FT</div>';" />
+        <div class="logo-wrap anim anim-scale d-2">
+            <div class="logo">
+                <img src="logo.png" alt="Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'logo-fallback\'>FT</div>';" />
+            </div>
         </div>
-        <h1 class="hero-title">FirstTool <span>Fortech</span></h1>
-        <p class="hero-sub">Kumpulan tools downloader dan deployer dalam satu tempat.</p>
+        <h1 class="hero-title anim anim-up d-3">FirstTool <span>Fortech</span></h1>
+        <p class="hero-sub anim anim-up d-4">Kumpulan tools downloader dan deployer dalam satu tempat.</p>
     </div>
 
     <!-- About Me -->
-    <div class="about-wrap">
+    <div class="about-wrap anim anim-up d-4">
         <button type="button" class="about-btn" id="aboutBtn">
             <span class="about-icon"><i class="fa-solid fa-user"></i></span>
             <span class="about-text">
@@ -424,8 +745,8 @@ body {
         </button>
     </div>
 
-    <!-- Downloader Section -->
-    <div class="section-title">
+    <!-- Downloader -->
+    <div class="section-title anim anim-up d-4">
         <i class="fa-solid fa-download"></i>
         Downloader
     </div>
@@ -464,8 +785,8 @@ body {
         </div>
     </div>
 
-    <!-- Deployer Section -->
-    <div class="section-title">
+    <!-- Deployer -->
+    <div class="section-title anim anim-up d-5">
         <i class="fa-solid fa-rocket"></i>
         Deployer
     </div>
@@ -489,7 +810,7 @@ body {
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer anim anim-up d-6">
         <div class="footer-brand">First<span>Tool</span> Fortech</div>
         <div class="footer-copy">
             &copy; <span id="year"></span> FortechDev. Made with <i class="fa-solid fa-heart"></i>
@@ -515,7 +836,7 @@ body {
             if (overlay) overlay.classList.add('active');
             setTimeout(function () {
                 window.location.href = 'porto.html';
-            }, 350);
+            }, 380);
         });
     }
 
@@ -523,13 +844,18 @@ body {
     document.querySelectorAll('.card').forEach(function (card) {
         card.addEventListener('click', function () {
             var tool = card.getAttribute('data-tool');
-            // Fungsi per tool menyusul
+            // Handler tiap tool menyusul
             console.log('Tool clicked:', tool);
         });
     });
+
+    /* Log */
+    console.log('%c FirstTool Fortech %c v1.0.0 ',
+        'background:#e63946;color:#fff;font-weight:700;padding:4px 8px;border-radius:4px 0 0 4px;',
+        'background:#0a0a0a;color:#e63946;font-weight:700;padding:4px 8px;border-radius:0 4px 4px 0;');
 
 })();
 </script>
 
 </body>
-</html>
+    </html>
