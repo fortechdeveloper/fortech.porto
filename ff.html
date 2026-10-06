@@ -520,31 +520,6 @@ body {
 
 .empty p { font-size: 12.5px; line-height: 1.5; }
 
-.proxy-log {
-    margin-top: 12px;
-    padding: 10px 12px;
-    border-radius: 9px;
-    background: #0f0f12;
-    border: 1px solid #1c1c20;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px;
-    color: #6b6b73;
-    line-height: 1.6;
-    max-height: 130px;
-    overflow-y: auto;
-    display: none;
-}
-
-.proxy-log.show { display: block; }
-
-.proxy-log::-webkit-scrollbar { width: 5px; }
-.proxy-log::-webkit-scrollbar-thumb { background: #26262b; border-radius: 3px; }
-
-.proxy-log .pl-item { display: flex; gap: 8px; align-items: flex-start; }
-.proxy-log .pl-item.ok   { color: #22c55e; }
-.proxy-log .pl-item.fail { color: #ef4444; }
-.proxy-log .pl-item.try  { color: #f59e0b; }
-
 .loading-overlay {
     position: fixed;
     inset: 0;
@@ -680,8 +655,6 @@ body {
             <i class="fa-solid fa-magnifying-glass"></i>
             Cek Akun
         </button>
-
-        <div class="proxy-log" id="proxyLog"></div>
     </div>
 
     <div class="panel fade" style="animation-delay:0.14s; display:none;" id="resultPanel">
@@ -710,7 +683,7 @@ body {
 <script>
 /* ============================================================
    FREEFIRE STALKER — FirstTool Fortech
-   Cek nickname dari User ID via Codashop API
+   Direct fetch tanpa proxy
    ============================================================ */
 
 (function () {
@@ -719,33 +692,6 @@ body {
     var API_URL = 'https://order.codashop.com/id/initPayment.action';
     var HISTORY_KEY = 'ff_stalker_history';
     var MAX_HISTORY = 10;
-
-    var PROXIES = [
-        {
-            name: 'corsproxy.io',
-            build: function (url) { return 'https://corsproxy.io/?' + encodeURIComponent(url); }
-        },
-        {
-            name: 'cors-anywhere',
-            build: function (url) { return 'https://cors-anywhere.herokuapp.com/' + url; }
-        },
-        {
-            name: 'thingproxy',
-            build: function (url) { return 'https://thingproxy.freeboard.io/fetch/' + url; }
-        },
-        {
-            name: 'corsproxy.org',
-            build: function (url) { return 'https://corsproxy.org/?' + encodeURIComponent(url); }
-        },
-        {
-            name: 'cors.eu.org',
-            build: function (url) { return 'https://cors.eu.org/' + url; }
-        },
-        {
-            name: 'direct',
-            build: function (url) { return url; }
-        }
-    ];
 
     var state = {
         userId: '',
@@ -766,7 +712,6 @@ body {
     var elToastMsg = $('toastMsg');
     var elLoading = $('loadingOverlay');
     var elLoadingText = $('loadingText');
-    var elProxyLog = $('proxyLog');
 
     function showToast(message, type) {
         type = type || 'success';
@@ -818,89 +763,6 @@ body {
         return new Date(ts).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
     }
 
-    function clearProxyLog() {
-        elProxyLog.innerHTML = '';
-        elProxyLog.classList.remove('show');
-    }
-
-    function logProxy(name, status, detail) {
-        elProxyLog.classList.add('show');
-        var item = document.createElement('div');
-        item.className = 'pl-item ' + status;
-        var icon = status === 'ok' ? '✓' : (status === 'fail' ? '✗' : '→');
-        item.textContent = icon + ' [' + name + '] ' + (detail || '');
-        elProxyLog.appendChild(item);
-        elProxyLog.scrollTop = elProxyLog.scrollHeight;
-    }
-
-    function fetchMultiProxy(targetUrl, options) {
-        options = options || {};
-        var method = (options.method || 'GET').toUpperCase();
-        var bodyStr = options.body;
-
-        var attemptIdx = 0;
-
-        function attempt() {
-            if (attemptIdx >= PROXIES.length) {
-                return Promise.reject(new Error('Semua proxy gagal. Coba lagi nanti.'));
-            }
-
-            var proxy = PROXIES[attemptIdx];
-            attemptIdx++;
-            var proxiedUrl = proxy.build(targetUrl);
-
-            logProxy(proxy.name, 'try', 'mencoba...');
-
-            var fetchOpts = {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8',
-                    'Accept': 'application/json, text/plain, */*'
-                },
-                mode: 'cors',
-                credentials: 'omit'
-            };
-
-            if (method !== 'GET' && bodyStr) {
-                fetchOpts.body = bodyStr;
-            }
-
-            var controller = new AbortController();
-            var timeoutId = setTimeout(function () {
-                controller.abort();
-            }, 15000);
-            fetchOpts.signal = controller.signal;
-
-            return fetch(proxiedUrl, fetchOpts)
-                .then(function (res) {
-                    clearTimeout(timeoutId);
-                    if (!res.ok) throw new Error('HTTP ' + res.status);
-                    return res.text();
-                })
-                .then(function (text) {
-                    try {
-                        var parsed = JSON.parse(text);
-                        logProxy(proxy.name, 'ok', 'berhasil');
-                        return parsed;
-                    } catch (e) {
-                        if (text.indexOf('<!DOCTYPE') === 0 || text.indexOf('<html') === 0) {
-                            throw new Error('response HTML');
-                        }
-                        throw new Error('bukan JSON valid');
-                    }
-                })
-                .catch(function (err) {
-                    clearTimeout(timeoutId);
-                    var msg = err.message || 'error';
-                    if (err.name === 'AbortError') msg = 'timeout';
-                    logProxy(proxy.name, 'fail', msg);
-                    return attempt();
-                });
-        }
-
-        return attempt();
-    }
-
     function stalkFreeFire(userId) {
         var payload = {
             'voucherPricePoint.id': 8050,
@@ -919,9 +781,16 @@ body {
             'shopLang': 'in_ID'
         };
 
-        return fetchMultiProxy(API_URL, {
+        return fetch(API_URL, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Accept': 'application/json, text/plain, */*'
+            },
             body: JSON.stringify(payload)
+        }).then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
         });
     }
 
@@ -976,9 +845,8 @@ body {
         state.userId = userId;
         state.loading = true;
 
-        clearProxyLog();
         elCheckBtn.disabled = true;
-        setLoading(true, 'Mencari akun...<br><span style="font-size:11px;color:#6b6b73;">Mencoba beberapa proxy, mohon tunggu</span>');
+        setLoading(true, 'Mencari akun...');
         setStatus('Mencari...', 'working');
 
         stalkFreeFire(userId)
@@ -1202,4 +1070,4 @@ body {
 </script>
 
 </body>
-  </html>
+</html>
