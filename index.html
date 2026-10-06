@@ -35,30 +35,133 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Background */
+/* ============================================================
+   BACKGROUND
+   ============================================================ */
 .bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    background:
-        radial-gradient(ellipse 60% 40% at 50% 0%, rgba(239, 68, 68, 0.08), transparent 70%),
-        radial-gradient(circle at 90% 100%, rgba(239, 68, 68, 0.05), transparent 60%);
+    background: #0a0a0a;
 }
 
+/* Layer 1: Moving gradient — hitam + merah */
+.bg-gradient {
+    position: absolute;
+    inset: -20%;
+    background:
+        radial-gradient(ellipse 60% 50% at 20% 20%, rgba(239, 68, 68, 0.18), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(239, 68, 68, 0.12), transparent 60%),
+        radial-gradient(ellipse 40% 40% at 60% 30%, rgba(185, 28, 28, 0.10), transparent 65%);
+    animation: gradientShift 24s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+@keyframes gradientShift {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50%  { transform: translate(-4%, 3%) rotate(4deg) scale(1.1); }
+    100% { transform: translate(3%, -3%) rotate(-3deg) scale(1.05); }
+}
+
+/* Layer 2: Slow drifting blob */
+.bg-blob {
+    position: absolute;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.14), transparent 70%);
+    filter: blur(70px);
+    top: 5%;
+    left: -180px;
+    animation: blobMove 28s ease-in-out infinite;
+    will-change: transform;
+}
+
+.bg-blob.b2 {
+    width: 380px;
+    height: 380px;
+    top: auto;
+    left: auto;
+    bottom: -120px;
+    right: -140px;
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.10), transparent 70%);
+    animation-duration: 34s;
+    animation-direction: reverse;
+}
+
+@keyframes blobMove {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(160px, 120px) scale(1.15); }
+}
+
+/* Layer 3: Grid — halus, bergerak diagonal */
 .bg-grid {
     position: absolute;
-    inset: 0;
+    inset: -50px;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
     background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 70% 50% at 50% 30%, #000 30%, transparent 90%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 30%, #000 30%, transparent 90%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 25%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 25%, transparent 85%);
+    animation: gridMove 40s linear infinite;
+    will-change: background-position;
 }
 
-/* Container */
+@keyframes gridMove {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 48px 48px, 48px 48px; }
+}
+
+/* Layer 4: Partikel merah naik */
+.bg-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    bottom: -10px;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #ef4444;
+    opacity: 0;
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.7);
+    animation: particleRise linear infinite;
+    will-change: transform, opacity;
+}
+
+@keyframes particleRise {
+    0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+    15%  { opacity: 0.6; }
+    85%  { opacity: 0.4; }
+    100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+}
+
+/* Layer 5: Slow scanning line */
+.bg-scan {
+    position: absolute;
+    top: -20%;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(180deg, transparent, rgba(239, 68, 68, 0.05), transparent);
+    animation: scan 12s linear infinite;
+    will-change: transform;
+}
+
+@keyframes scan {
+    from { transform: translateY(0); }
+    to   { transform: translateY(140vh); }
+}
+
+/* ============================================================
+   CONTAINER
+   ============================================================ */
 .container {
     max-width: 640px;
     margin: 0 auto;
@@ -121,6 +224,14 @@ body {
     height: 6px;
     border-radius: 50%;
     background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+    animation: statusPulse 2s ease-out infinite;
+}
+
+@keyframes statusPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+    70%  { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
 }
 
 /* Hero */
@@ -141,6 +252,11 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
+    transition: border-color 0.3s ease;
+}
+
+.logo-box:hover {
+    border-color: #ef4444;
 }
 
 .logo-box .fallback {
@@ -189,23 +305,45 @@ h1.title span {
     gap: 14px;
     width: 100%;
     padding: 15px 18px;
-    background: #141417;
+    background: rgba(20, 20, 23, 0.6);
     border: 1px solid #26262b;
     border-radius: 14px;
     cursor: pointer;
     color: #e8e8e8;
     text-align: left;
     font-family: inherit;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shimmer sweep */
+.about-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(239, 68, 68, 0.15), transparent);
+    transition: left 0.8s ease;
+    pointer-events: none;
+}
+
+.about-btn:hover::before {
+    left: 130%;
 }
 
 .about-btn:hover {
-    background: #17171b;
+    background: rgba(23, 23, 27, 0.85);
     border-color: #ef4444;
+    transform: translateY(-1px);
 }
 
 .about-btn:active {
-    transform: scale(0.99);
+    transform: translateY(0) scale(0.99);
 }
 
 .about-icon {
@@ -219,6 +357,11 @@ h1.title span {
     font-size: 16px;
     color: #fff;
     flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.about-btn:hover .about-icon {
+    transform: scale(1.05);
 }
 
 .about-text {
@@ -226,6 +369,8 @@ h1.title span {
     display: flex;
     flex-direction: column;
     line-height: 1.3;
+    position: relative;
+    z-index: 1;
 }
 
 .about-text small {
@@ -242,7 +387,9 @@ h1.title span {
 .about-arrow {
     font-size: 13px;
     color: #6b6b73;
-    transition: transform 0.2s ease, color 0.2s ease;
+    transition: transform 0.25s ease, color 0.25s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .about-btn:hover .about-arrow {
@@ -289,22 +436,49 @@ h1.title span {
     flex-direction: column;
     gap: 12px;
     padding: 15px;
-    background: #131316;
+    background: rgba(19, 19, 22, 0.65);
     border: 1px solid #222227;
     border-radius: 13px;
     cursor: pointer;
-    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.3s ease;
     user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Bottom accent line on hover */
+.card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--accent, #ef4444);
+    transition: width 0.35s ease, left 0.35s ease;
+    border-radius: 2px 2px 0 0;
 }
 
 .card:hover {
-    background: #17171b;
+    background: rgba(23, 23, 27, 0.9);
     border-color: var(--accent, #ef4444);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.card:hover::after {
+    width: 60%;
+    left: 20%;
 }
 
 .card:active {
-    transform: translateY(0) scale(0.99);
+    transform: translateY(-1px) scale(0.99);
 }
 
 .card-top {
@@ -323,11 +497,17 @@ h1.title span {
     align-items: center;
     justify-content: center;
     font-size: 17px;
+    transition: border-color 0.25s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .card-icon i {
     color: #9a9aa2;
-    transition: color 0.2s ease;
+    transition: color 0.25s ease;
+}
+
+.card:hover .card-icon {
+    transform: scale(1.06);
+    border-color: var(--accent, #ef4444);
 }
 
 .card:hover .card-icon i {
@@ -337,11 +517,11 @@ h1.title span {
 .card-arrow {
     font-size: 10px;
     color: #4a4a52;
-    transition: transform 0.2s ease, color 0.2s ease;
+    transition: transform 0.25s ease, color 0.25s ease;
 }
 
 .card:hover .card-arrow {
-    transform: translateX(2px);
+    transform: translateX(3px);
     color: #8a8a92;
 }
 
@@ -446,12 +626,40 @@ h1.title span {
     .card { padding: 17px; }
     .card-icon { width: 42px; height: 42px; font-size: 18px; }
 }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .bg-gradient,
+    .bg-blob,
+    .bg-grid,
+    .bg-scan,
+    .particle,
+    .header-status::before {
+        animation: none !important;
+    }
+}
 </style>
 </head>
 <body>
 
 <div class="bg">
+    <div class="bg-gradient"></div>
+    <div class="bg-blob"></div>
+    <div class="bg-blob b2"></div>
     <div class="bg-grid"></div>
+    <div class="bg-scan"></div>
+    <div class="bg-particles">
+        <span class="particle" style="left:6%;  animation-duration:16s; animation-delay:0s;"></span>
+        <span class="particle" style="left:16%; animation-duration:20s; animation-delay:3s; width:2px; height:2px;"></span>
+        <span class="particle" style="left:26%; animation-duration:14s; animation-delay:6s;"></span>
+        <span class="particle" style="left:36%; animation-duration:22s; animation-delay:1s; width:4px; height:4px;"></span>
+        <span class="particle" style="left:46%; animation-duration:18s; animation-delay:8s;"></span>
+        <span class="particle" style="left:56%; animation-duration:15s; animation-delay:4s; width:2px; height:2px;"></span>
+        <span class="particle" style="left:66%; animation-duration:19s; animation-delay:2s;"></span>
+        <span class="particle" style="left:76%; animation-duration:17s; animation-delay:7s; width:4px; height:4px;"></span>
+        <span class="particle" style="left:86%; animation-duration:21s; animation-delay:5s;"></span>
+        <span class="particle" style="left:94%; animation-duration:13s; animation-delay:9s; width:2px; height:2px;"></span>
+    </div>
 </div>
 
 <div class="overlay" id="overlay">
