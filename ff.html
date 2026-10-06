@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<meta name="theme-color" content="#0a0a0a" />
+<title>FreeFire Stalker — FirstTool Fortech</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0a0a0a;
+    color: #e8e8e8;
+    min-height: 100vh;
+    line-height: 1.55;
+    font-size: 14.5px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; background: #0a0a0a; }
+
+.bg-gradient {
+    position: absolute;
+    inset: -20%;
+    background:
+        radial-gradient(ellipse 60% 50% at 20% 20%, rgba(245, 158, 11, 0.14), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(239, 68, 68, 0.12), transparent 60%),
+        radial-gradient(ellipse 40% 40% at 60% 30%, rgba(239, 68, 68, 0.08), transparent 65%);
+    animation: gradientShift 24s ease-in-out infinite alternate;
+}
+
+@keyframes gradientShift {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50%  { transform: translate(-4%, 3%) rotate(4deg) scale(1.1); }
+    100% { transform: translate(3%, -3%) rotate(-3deg) scale(1.05); }
+}
+
+.bg-blob {
+    position: absolute;
+    width: 460px; height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.12), transparent 70%);
+    filter: blur(70px);
+    top: 5%; left: -180px;
+    animation: blobMove 28s ease-in-out infinite;
+}
+
+.bg-blob.b2 {
+    width: 380px; height: 380px;
+    top: auto; left: auto;
+    bottom: -120px; right: -140px;
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.12), transparent 70%);
+    animation-duration: 34s;
+    animation-direction: reverse;
+}
+
+@keyframes blobMove {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(160px, 120px) scale(1.15); }
+}
+
+.bg-grid {
+    position: absolute;
+    inset: -50px;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 25%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 25%, transparent 85%);
+    animation: gridMove 40s linear infinite;
+}
+
+@keyframes gridMove {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 48px 48px, 48px 48px; }
+}
+
+.bg-particles { position: absolute; inset: 0; overflow: hidden; }
+
+.particle {
+    position: absolute;
+    bottom: -10px;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: #f59e0b;
+    opacity: 0;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.7);
+    animation: particleRise linear infinite;
+}
+
+@keyframes particleRise {
+    0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+    15%  { opacity: 0.6; }
+    85%  { opacity: 0.4; }
+    100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+}
+
+.bg-scan {
+    position: absolute;
+    top: -20%; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(180deg, transparent, rgba(245, 158, 11, 0.05), transparent);
+    animation: scan 12s linear infinite;
+}
+
+@keyframes scan {
+    from { transform: translateY(0); }
+    to   { transform: translateY(140vh); }
+}
+
+.container { max-width: 640px; margin: 0 auto; padding: 20px 16px 60px; position: relative; z-index: 1; }
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade { animation: fadeUp 0.5s ease-out both; }
+
+.top-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 0 22px; }
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: rgba(20, 20, 23, 0.7);
+    border: 1px solid #26262b;
+    color: #e8e8e8;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.back-btn:hover { border-color: #f59e0b; background: rgba(23, 23, 27, 0.95); }
+.back-btn:active { transform: scale(0.98); }
+.back-btn i { font-size: 12px; color: #f59e0b; }
+
+.top-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #6b6b73;
+    padding: 5px 11px;
+    border-radius: 100px;
+    background: rgba(20, 20, 23, 0.7);
+    border: 1px solid #26262b;
+}
+
+.top-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #f59e0b;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.8);
+}
+
+.top-status.online::before { background: #22c55e; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+
+.top-status.working::before {
+    background: #f59e0b;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.8);
+    animation: pulseDot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.hero-sm { text-align: center; padding: 4px 0 22px; }
+
+.hero-sm .hero-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 14px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    color: #fff;
+    box-shadow: 0 10px 28px -8px rgba(245, 158, 11, 0.6);
+}
+
+.hero-sm h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 6px;
+}
+
+.hero-sm h1 span { color: #f59e0b; }
+
+.hero-sm p { font-size: 13px; color: #8a8a92; max-width: 400px; margin: 0 auto; }
+
+.panel {
+    background: rgba(19, 19, 22, 0.7);
+    border: 1px solid #222227;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.panel-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b6b73;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.panel-title i { font-size: 11px; color: #f59e0b; }
+
+.field { margin-bottom: 12px; }
+.field:last-child { margin-bottom: 0; }
+
+.field label {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #8a8a92;
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+}
+
+.field input {
+    width: 100%;
+    padding: 11px 13px;
+    background: #141418;
+    border: 1px solid #26262b;
+    border-radius: 10px;
+    color: #e8e8e8;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.25s ease, background 0.25s ease;
+    letter-spacing: 0.05em;
+}
+
+.field input:focus { border-color: #f59e0b; background: #17171b; }
+.field input::placeholder { color: #4a4a52; font-family: 'Inter', sans-serif; letter-spacing: normal; }
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 11px;
+    border: none;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.btn-primary {
+    background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+    color: #fff;
+    box-shadow: 0 8px 22px -8px rgba(245, 158, 11, 0.6);
+    width: 100%;
+}
+
+.btn-primary:hover:not(:disabled) { box-shadow: 0 12px 28px -8px rgba(245, 158, 11, 0.85); }
+
+.btn-ghost {
+    background: #141418;
+    border: 1px solid #26262b;
+    color: #e8e8e8;
+    flex: 1;
+    justify-content: center;
+}
+
+.btn-ghost:hover:not(:disabled) { border-color: #f59e0b; background: #17171b; }
+
+.result-card {
+    padding: 20px;
+    border-radius: 14px;
+    background: linear-gradient(160deg, rgba(245, 158, 11, 0.08), rgba(20, 20, 23, 0.5));
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease-out both;
+}
+
+.result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+}
+
+.result-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+    margin-bottom: 16px;
+}
+
+.result-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 700;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    box-shadow: 0 8px 20px -8px rgba(245, 158, 11, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.result-name-block { flex: 1; min-width: 0; }
+
+.result-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #8a8a92;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+}
+
+.result-nickname {
+    font-size: 18px;
+    font-weight: 700;
+    color: #f4f4f5;
+    line-height: 1.25;
+    word-break: break-word;
+    letter-spacing: -0.01em;
+}
+
+.result-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.result-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 13px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #1c1c20;
+}
+
+.result-row-label {
+    font-size: 11.5px;
+    color: #8a8a92;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 500;
+}
+
+.result-row-label i { font-size: 11px; color: #f59e0b; width: 12px; text-align: center; }
+
+.result-row-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #f4f4f5;
+    font-weight: 600;
+    word-break: break-all;
+    text-align: right;
+}
+
+.result-actions { display: flex; gap: 8px; }
+.result-actions .btn { flex: 1; }
+
+.history-list { display: flex; flex-direction: column; gap: 8px; }
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 13px;
+    background: #141418;
+    border: 1px solid #26262b;
+    border-radius: 11px;
+    cursor: pointer;
+    transition: border-color 0.22s ease, background 0.22s ease, transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.history-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: #f59e0b;
+    transform: translateX(-3px);
+    transition: transform 0.25s ease;
+}
+
+.history-item:hover {
+    border-color: #35353d;
+    background: #17171b;
+    transform: translateX(2px);
+}
+
+.history-item:hover::before { transform: translateX(0); }
+
+.history-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f59e0b, #b45309);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+
+.history-body { flex: 1; min-width: 0; }
+
+.history-nick {
+    font-size: 13px;
+    font-weight: 600;
+    color: #f4f4f5;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history-id {
+    font-size: 11px;
+    color: #6b6b73;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 2px;
+}
+
+.history-time {
+    font-size: 10.5px;
+    color: #4a4a52;
+    flex-shrink: 0;
+}
+
+.history-delete {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #4a4a52;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.history-delete:hover {
+    color: #ef4444;
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.empty {
+    text-align: center;
+    padding: 26px 16px;
+    color: #4a4a52;
+}
+
+.empty i {
+    font-size: 28px;
+    color: #26262b;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.empty p { font-size: 12.5px; line-height: 1.5; }
+
+.proxy-log {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    background: #0f0f12;
+    border: 1px solid #1c1c20;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: #6b6b73;
+    line-height: 1.6;
+    max-height: 130px;
+    overflow-y: auto;
+    display: none;
+}
+
+.proxy-log.show { display: block; }
+
+.proxy-log::-webkit-scrollbar { width: 5px; }
+.proxy-log::-webkit-scrollbar-thumb { background: #26262b; border-radius: 3px; }
+
+.proxy-log .pl-item { display: flex; gap: 8px; align-items: flex-start; }
+.proxy-log .pl-item.ok   { color: #22c55e; }
+.proxy-log .pl-item.fail { color: #ef4444; }
+.proxy-log .pl-item.try  { color: #f59e0b; }
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 999;
+}
+
+.loading-overlay.active { display: flex; }
+
+.loading-spinner {
+    width: 34px;
+    height: 34px;
+    border: 3px solid #26262b;
+    border-top-color: #f59e0b;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-text { font-size: 12.5px; color: #8a8a92; text-align: center; padding: 0 20px; }
+
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    padding: 11px 18px;
+    background: #17171b;
+    border: 1px solid #26262b;
+    border-radius: 11px;
+    color: #e8e8e8;
+    font-size: 12.5px;
+    font-weight: 500;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+    max-width: 90vw;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast i { font-size: 13px; }
+.toast.success i { color: #22c55e; }
+.toast.error i { color: #ef4444; }
+.toast.info i { color: #f59e0b; }
+
+@media (max-width: 380px) {
+    .container { padding: 16px 12px 50px; }
+    .hero-sm h1 { font-size: 19px; }
+    .hero-sm .hero-icon { width: 56px; height: 56px; font-size: 22px; }
+    .panel { padding: 15px; }
+    .result-avatar { width: 54px; height: 54px; font-size: 22px; }
+    .result-nickname { font-size: 16px; }
+}
+
+@media (min-width: 720px) {
+    .container { padding: 30px 24px 70px; }
+    .hero-sm h1 { font-size: 26px; }
+    .panel { padding: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bg-gradient, .bg-blob, .bg-grid, .bg-scan, .particle { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg">
+    <div class="bg-gradient"></div>
+    <div class="bg-blob"></div>
+    <div class="bg-blob b2"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-scan"></div>
+    <div class="bg-particles">
+        <span class="particle" style="left:6%;  animation-duration:16s; animation-delay:0s;"></span>
+        <span class="particle" style="left:16%; animation-duration:20s; animation-delay:3s; width:2px; height:2px;"></span>
+        <span class="particle" style="left:26%; animation-duration:14s; animation-delay:6s;"></span>
+        <span class="particle" style="left:36%; animation-duration:22s; animation-delay:1s; width:4px; height:4px;"></span>
+        <span class="particle" style="left:46%; animation-duration:18s; animation-delay:8s;"></span>
+        <span class="particle" style="left:56%; animation-duration:15s; animation-delay:4s; width:2px; height:2px;"></span>
+        <span class="particle" style="left:66%; animation-duration:19s; animation-delay:2s;"></span>
+        <span class="particle" style="left:76%; animation-duration:17s; animation-delay:7s; width:4px; height:4px;"></span>
+        <span class="particle" style="left:86%; animation-duration:21s; animation-delay:5s;"></span>
+        <span class="particle" style="left:94%; animation-duration:13s; animation-delay:9s; width:2px; height:2px;"></span>
+    </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loadingText">Memuat...</div>
+</div>
+
+<div class="container">
+
+    <div class="top-bar fade" style="animation-delay:0.02s">
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Kembali
+        </a>
+        <div class="top-status" id="statusChip">Siap</div>
+    </div>
+
+    <div class="hero-sm fade" style="animation-delay:0.06s">
+        <div class="hero-icon"><i class="fa-solid fa-crosshairs"></i></div>
+        <h1>FreeFire <span>Stalker</span></h1>
+        <p>Masukkan User ID untuk melihat nickname akun FreeFire.</p>
+    </div>
+
+    <div class="panel fade" style="animation-delay:0.1s">
+        <div class="panel-title">
+            <i class="fa-solid fa-id-card"></i>
+            Masukkan User ID
+        </div>
+
+        <div class="field">
+            <input type="text" id="userIdInput" placeholder="Contoh: 123456789" autocomplete="off" spellcheck="false" inputmode="numeric" maxlength="15" />
+        </div>
+
+        <button type="button" class="btn btn-primary" id="checkBtn" style="margin-top: 4px;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Cek Akun
+        </button>
+
+        <div class="proxy-log" id="proxyLog"></div>
+    </div>
+
+    <div class="panel fade" style="animation-delay:0.14s; display:none;" id="resultPanel">
+        <div class="panel-title">
+            <i class="fa-solid fa-circle-check"></i>
+            Hasil
+        </div>
+        <div id="resultContainer"></div>
+    </div>
+
+    <div class="panel fade" style="animation-delay:0.18s; display:none;" id="historyPanel">
+        <div class="panel-title">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            Riwayat Pencarian
+        </div>
+        <div id="historyContainer"></div>
+    </div>
+
+</div>
+
+<div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMsg">OK</span>
+</div>
+
+<script>
+/* ============================================================
+   FREEFIRE STALKER — FirstTool Fortech
+   Cek nickname dari User ID via Codashop API
+   ============================================================ */
+
+(function () {
+    'use strict';
+
+    var API_URL = 'https://order.codashop.com/id/initPayment.action';
+    var HISTORY_KEY = 'ff_stalker_history';
+    var MAX_HISTORY = 10;
+
+    var PROXIES = [
+        {
+            name: 'corsproxy.io',
+            build: function (url) { return 'https://corsproxy.io/?' + encodeURIComponent(url); }
+        },
+        {
+            name: 'cors-anywhere',
+            build: function (url) { return 'https://cors-anywhere.herokuapp.com/' + url; }
+        },
+        {
+            name: 'thingproxy',
+            build: function (url) { return 'https://thingproxy.freeboard.io/fetch/' + url; }
+        },
+        {
+            name: 'corsproxy.org',
+            build: function (url) { return 'https://corsproxy.org/?' + encodeURIComponent(url); }
+        },
+        {
+            name: 'cors.eu.org',
+            build: function (url) { return 'https://cors.eu.org/' + url; }
+        },
+        {
+            name: 'direct',
+            build: function (url) { return url; }
+        }
+    ];
+
+    var state = {
+        userId: '',
+        nickname: '',
+        loading: false
+    };
+
+    var $ = function (id) { return document.getElementById(id); };
+
+    var elUserIdInput = $('userIdInput');
+    var elCheckBtn = $('checkBtn');
+    var elResultPanel = $('resultPanel');
+    var elResultContainer = $('resultContainer');
+    var elHistoryPanel = $('historyPanel');
+    var elHistoryContainer = $('historyContainer');
+    var elStatusChip = $('statusChip');
+    var elToast = $('toast');
+    var elToastMsg = $('toastMsg');
+    var elLoading = $('loadingOverlay');
+    var elLoadingText = $('loadingText');
+    var elProxyLog = $('proxyLog');
+
+    function showToast(message, type) {
+        type = type || 'success';
+        var icons = {
+            success: 'fa-circle-check',
+            error: 'fa-circle-exclamation',
+            info: 'fa-circle-info'
+        };
+        elToast.className = 'toast ' + type;
+        elToast.querySelector('i').className = 'fa-solid ' + icons[type];
+        elToastMsg.textContent = message;
+        elToast.classList.add('show');
+        clearTimeout(elToast._timer);
+        elToast._timer = setTimeout(function () {
+            elToast.classList.remove('show');
+        }, 3000);
+    }
+
+    function setLoading(on, text) {
+        if (on) {
+            elLoadingText.innerHTML = text || 'Memuat...';
+            elLoading.classList.add('active');
+        } else {
+            elLoading.classList.remove('active');
+        }
+    }
+
+    function setStatus(text, cls) {
+        elStatusChip.textContent = text;
+        elStatusChip.className = 'top-status' + (cls ? ' ' + cls : '');
+    }
+
+    function escapeHtml(s) {
+        if (s === null || s === undefined) return '';
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function timeAgo(ts) {
+        var diff = Math.floor((Date.now() - ts) / 1000);
+        if (diff < 60) return 'baru';
+        if (diff < 3600) return Math.floor(diff / 60) + 'm';
+        if (diff < 86400) return Math.floor(diff / 3600) + 'j';
+        if (diff < 604800) return Math.floor(diff / 86400) + 'h';
+        return new Date(ts).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
+    }
+
+    function clearProxyLog() {
+        elProxyLog.innerHTML = '';
+        elProxyLog.classList.remove('show');
+    }
+
+    function logProxy(name, status, detail) {
+        elProxyLog.classList.add('show');
+        var item = document.createElement('div');
+        item.className = 'pl-item ' + status;
+        var icon = status === 'ok' ? '✓' : (status === 'fail' ? '✗' : '→');
+        item.textContent = icon + ' [' + name + '] ' + (detail || '');
+        elProxyLog.appendChild(item);
+        elProxyLog.scrollTop = elProxyLog.scrollHeight;
+    }
+
+    function fetchMultiProxy(targetUrl, options) {
+        options = options || {};
+        var method = (options.method || 'GET').toUpperCase();
+        var bodyStr = options.body;
+
+        var attemptIdx = 0;
+
+        function attempt() {
+            if (attemptIdx >= PROXIES.length) {
+                return Promise.reject(new Error('Semua proxy gagal. Coba lagi nanti.'));
+            }
+
+            var proxy = PROXIES[attemptIdx];
+            attemptIdx++;
+            var proxiedUrl = proxy.build(targetUrl);
+
+            logProxy(proxy.name, 'try', 'mencoba...');
+
+            var fetchOpts = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Accept': 'application/json, text/plain, */*'
+                },
+                mode: 'cors',
+                credentials: 'omit'
+            };
+
+            if (method !== 'GET' && bodyStr) {
+                fetchOpts.body = bodyStr;
+            }
+
+            var controller = new AbortController();
+            var timeoutId = setTimeout(function () {
+                controller.abort();
+            }, 15000);
+            fetchOpts.signal = controller.signal;
+
+            return fetch(proxiedUrl, fetchOpts)
+                .then(function (res) {
+                    clearTimeout(timeoutId);
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.text();
+                })
+                .then(function (text) {
+                    try {
+                        var parsed = JSON.parse(text);
+                        logProxy(proxy.name, 'ok', 'berhasil');
+                        return parsed;
+                    } catch (e) {
+                        if (text.indexOf('<!DOCTYPE') === 0 || text.indexOf('<html') === 0) {
+                            throw new Error('response HTML');
+                        }
+                        throw new Error('bukan JSON valid');
+                    }
+                })
+                .catch(function (err) {
+                    clearTimeout(timeoutId);
+                    var msg = err.message || 'error';
+                    if (err.name === 'AbortError') msg = 'timeout';
+                    logProxy(proxy.name, 'fail', msg);
+                    return attempt();
+                });
+        }
+
+        return attempt();
+    }
+
+    function stalkFreeFire(userId) {
+        var payload = {
+            'voucherPricePoint.id': 8050,
+            'voucherPricePoint.price': '',
+            'voucherPricePoint.variablePrice': '',
+            'email': '',
+            'n': '',
+            'userVariablePrice': '',
+            'order.data.profile': '',
+            'user.userId': userId,
+            'voucherTypeName': 'FREEFIRE',
+            'affiliateTrackingId': '',
+            'impactClickId': '',
+            'checkoutId': '',
+            'tmwAccessToken': '',
+            'shopLang': 'in_ID'
+        };
+
+        return fetchMultiProxy(API_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
+    }
+
+    function parseResponse(data) {
+        if (!data) return null;
+
+        var cf = data.confirmationFields || data.confirmation_fields || null;
+
+        if (!cf) {
+            if (data.errorMessage || data.error) {
+                throw new Error(data.errorMessage || data.error || 'User ID tidak ditemukan');
+            }
+            throw new Error('User ID tidak valid atau tidak ditemukan');
+        }
+
+        var roles = cf.roles || cf.role || [];
+        if (!Array.isArray(roles)) roles = [roles];
+
+        if (!roles.length || !roles[0]) {
+            throw new Error('Nickname tidak ditemukan untuk User ID ini');
+        }
+
+        var role = roles[0];
+        var nickname = role.role || role.nickname || role.name || '';
+
+        if (!nickname) {
+            throw new Error('Nickname kosong. User ID mungkin tidak valid');
+        }
+
+        return { nickname: nickname, raw: data };
+    }
+
+    function doCheck(userId) {
+        userId = String(userId || '').trim();
+
+        if (!userId) {
+            showToast('Masukkan User ID dulu', 'error');
+            elUserIdInput.focus();
+            return;
+        }
+
+        if (!/^\d+$/.test(userId)) {
+            showToast('User ID hanya boleh angka', 'error');
+            return;
+        }
+
+        if (userId.length < 5) {
+            showToast('User ID terlalu pendek', 'error');
+            return;
+        }
+
+        state.userId = userId;
+        state.loading = true;
+
+        clearProxyLog();
+        elCheckBtn.disabled = true;
+        setLoading(true, 'Mencari akun...<br><span style="font-size:11px;color:#6b6b73;">Mencoba beberapa proxy, mohon tunggu</span>');
+        setStatus('Mencari...', 'working');
+
+        stalkFreeFire(userId)
+            .then(function (data) {
+                setLoading(false);
+                elCheckBtn.disabled = false;
+                state.loading = false;
+
+                var parsed = parseResponse(data);
+                if (!parsed) throw new Error('Response tidak valid');
+
+                state.nickname = parsed.nickname;
+
+                renderResult(userId, parsed.nickname);
+                saveHistory(userId, parsed.nickname);
+                renderHistory();
+
+                setStatus('Ditemukan', 'online');
+                showToast('Akun ditemukan', 'success');
+
+                setTimeout(function () {
+                    elResultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            })
+            .catch(function (err) {
+                setLoading(false);
+                elCheckBtn.disabled = false;
+                state.loading = false;
+                setStatus('Gagal', '');
+                showToast('Gagal: ' + (err.message || 'Tidak ditemukan'), 'error');
+
+                elResultPanel.style.display = 'block';
+                elResultContainer.innerHTML =
+                    '<div class="empty">' +
+                        '<i class="fa-solid fa-circle-exclamation" style="color:#ef4444;"></i>' +
+                        '<p>' + escapeHtml(err.message || 'User ID tidak ditemukan') + '</p>' +
+                    '</div>';
+            });
+    }
+
+    function renderResult(userId, nickname) {
+        elResultPanel.style.display = 'block';
+
+        var initial = (nickname || '?').replace(/[^a-zA-Z0-9]/g, '').charAt(0) || '?';
+
+        var html = '';
+        html += '<div class="result-card">';
+        html += '<div class="result-header">';
+        html += '<div class="result-avatar">' + escapeHtml(initial) + '</div>';
+        html += '<div class="result-name-block">';
+        html += '<div class="result-label">Nickname</div>';
+        html += '<div class="result-nickname">' + escapeHtml(nickname) + '</div>';
+        html += '</div>';
+        html += '</div>';
+
+        html += '<div class="result-rows">';
+        html += '<div class="result-row">';
+        html += '<div class="result-row-label"><i class="fa-solid fa-id-badge"></i>User ID</div>';
+        html += '<div class="result-row-value">' + escapeHtml(userId) + '</div>';
+        html += '</div>';
+        html += '<div class="result-row">';
+        html += '<div class="result-row-label"><i class="fa-solid fa-gamepad"></i>Game</div>';
+        html += '<div class="result-row-value">FreeFire</div>';
+        html += '</div>';
+        html += '<div class="result-row">';
+        html += '<div class="result-row-label"><i class="fa-solid fa-server"></i>Region</div>';
+        html += '<div class="result-row-value">Indonesia</div>';
+        html += '</div>';
+        html += '</div>';
+
+        html += '<div class="result-actions">';
+        html += '<button type="button" class="btn btn-ghost" id="copyNickBtn"><i class="fa-regular fa-copy"></i>Salin Nickname</button>';
+        html += '<button type="button" class="btn btn-ghost" id="checkAgainBtn"><i class="fa-solid fa-rotate"></i>Cek Lagi</button>';
+        html += '</div>';
+
+        html += '</div>';
+
+        elResultContainer.innerHTML = html;
+
+        var copyBtn = document.getElementById('copyNickBtn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', function () {
+                copyToClipboard(nickname, 'Nickname disalin');
+            });
+        }
+
+        var againBtn = document.getElementById('checkAgainBtn');
+        if (againBtn) {
+            againBtn.addEventListener('click', function () {
+                elUserIdInput.focus();
+                elUserIdInput.select();
+            });
+        }
+    }
+
+    function copyToClipboard(text, successMsg) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+                showToast(successMsg || 'Disalin', 'success');
+            }).catch(function () {
+                fallbackCopy(text);
+                showToast(successMsg || 'Disalin', 'success');
+            });
+        } else {
+            fallbackCopy(text);
+            showToast(successMsg || 'Disalin', 'success');
+        }
+    }
+
+    function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+    }
+
+    function loadHistory() {
+        try {
+            var raw = localStorage.getItem(HISTORY_KEY);
+            if (!raw) return [];
+            var parsed = JSON.parse(raw);
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveHistory(userId, nickname) {
+        try {
+            var history = loadHistory();
+            history = history.filter(function (h) { return h.userId !== userId; });
+            history.unshift({ userId: userId, nickname: nickname, ts: Date.now() });
+            if (history.length > MAX_HISTORY) history = history.slice(0, MAX_HISTORY);
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        } catch (e) {}
+    }
+
+    function deleteHistoryItem(userId) {
+        try {
+            var history = loadHistory();
+            history = history.filter(function (h) { return h.userId !== userId; });
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        } catch (e) {}
+    }
+
+    function renderHistory() {
+        var history = loadHistory();
+
+        if (!history.length) {
+            elHistoryPanel.style.display = 'none';
+            return;
+        }
+
+        elHistoryPanel.style.display = 'block';
+
+        var html = '<div class="history-list">';
+        history.forEach(function (h) {
+            var initial = (h.nickname || '?').replace(/[^a-zA-Z0-9]/g, '').charAt(0) || '?';
+            html +=
+                '<div class="history-item" data-userid="' + escapeHtml(h.userId) + '">' +
+                    '<div class="history-avatar">' + escapeHtml(initial) + '</div>' +
+                    '<div class="history-body">' +
+                        '<div class="history-nick">' + escapeHtml(h.nickname) + '</div>' +
+                        '<div class="history-id">' + escapeHtml(h.userId) + '</div>' +
+                    '</div>' +
+                    '<div class="history-time">' + timeAgo(h.ts) + '</div>' +
+                    '<button type="button" class="history-delete" data-del="' + escapeHtml(h.userId) + '" title="Hapus">' +
+                        '<i class="fa-solid fa-xmark"></i>' +
+                    '</button>' +
+                '</div>';
+        });
+        html += '</div>';
+
+        elHistoryContainer.innerHTML = html;
+
+        elHistoryContainer.querySelectorAll('.history-item').forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                if (e.target.closest('.history-delete')) return;
+                var uid = item.getAttribute('data-userid');
+                elUserIdInput.value = uid;
+                doCheck(uid);
+            });
+        });
+
+        elHistoryContainer.querySelectorAll('.history-delete').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var uid = btn.getAttribute('data-del');
+                deleteHistoryItem(uid);
+                renderHistory();
+                showToast('Riwayat dihapus', 'info');
+            });
+        });
+    }
+
+    elUserIdInput.addEventListener('input', function () {
+        var val = elUserIdInput.value.replace(/\D/g, '');
+        if (val !== elUserIdInput.value) elUserIdInput.value = val;
+    });
+
+    elUserIdInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            doCheck(elUserIdInput.value);
+        }
+    });
+
+    elCheckBtn.addEventListener('click', function () {
+        doCheck(elUserIdInput.value);
+    });
+
+    renderHistory();
+    setStatus('Siap', 'online');
+    console.log('[FreeFire Stalker] loaded');
+
+})();
+</script>
+
+</body>
+  </html>
