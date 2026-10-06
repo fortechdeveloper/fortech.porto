@@ -5,7 +5,7 @@
      OWNER        : Yudha Pramudya (Fortech Dev)
      FILE         : index.html  (HTML + CSS + JS ALL-IN-ONE)
      ASSETS       : logo.png  |  saya.jpg
-     VERSION      : 5.0.0 — RED THEME + CLEAN HERO
+     VERSION      : 6.0.0 — NO LOADER + RED THEME
      ============================================================ -->
 <html lang="id">
 <head>
@@ -29,17 +29,16 @@
    03. BASE
    04. SCROLLBAR
    05. BACKGROUND
-   06. LOADER
-   07. HEADER
-   08. HERO
-   09. ABOUT — FLOAT LAYOUT
-   10. INFO
-   11. SKILLS
-   12. STATS
-   13. TERMINAL
-   14. FOOTER
-   15. REVEAL
-   16. RESPONSIVE
+   06. HEADER
+   07. HERO
+   08. ABOUT — FLOAT LAYOUT
+   09. INFO
+   10. SKILLS
+   11. STATS
+   12. TERMINAL
+   13. FOOTER
+   14. REVEAL
+   15. RESPONSIVE
    ============================================================ */
 
 /* ---------- 01. RESET ---------- */
@@ -115,32 +114,7 @@ a:hover{opacity:.8;}
     background:radial-gradient(ellipse at center,transparent 55%,rgba(10,10,13,.75) 100%);
 }
 
-/* ---------- 06. LOADER ---------- */
-#loader{
-    position:fixed;inset:0;z-index:9999;background:#0a0a0d;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:24px;transition:opacity .7s ease,visibility .7s;
-}
-#loader.done{opacity:0;visibility:hidden;}
-.loader-logo{
-    width:76px;height:76px;object-fit:contain;
-    animation:pulseLogo 1.6s ease-in-out infinite;
-    filter:drop-shadow(0 0 24px var(--accent-glow));
-}
-@keyframes pulseLogo{
-    0%,100%{opacity:.45;transform:scale(.94);}
-    50%{opacity:1;transform:scale(1.05);}
-}
-.loader-bar{width:200px;height:3px;background:rgba(255,255,255,.08);overflow:hidden;border-radius:3px;}
-.loader-bar span{
-    display:block;height:100%;width:0;
-    background:linear-gradient(90deg,var(--accent),var(--accent-3));
-    animation:loadFill 1.4s ease-in-out forwards;
-}
-@keyframes loadFill{0%{width:0;}100%{width:100%;}}
-.loader-text{font-size:11px;letter-spacing:3px;color:var(--fg-4);text-transform:uppercase;font-weight:500;}
-
-/* ---------- 07. HEADER ---------- */
+/* ---------- 06. HEADER ---------- */
 .site-header{
     position:sticky;top:0;z-index:500;width:100%;
     padding:14px 22px;
@@ -178,7 +152,7 @@ a:hover{opacity:.8;}
 }
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
 
-/* ---------- 08. HERO ---------- */
+/* ---------- 07. HERO ---------- */
 .wrap{
     position:relative;z-index:10;
     max-width:880px;
@@ -234,7 +208,7 @@ a:hover{opacity:.8;}
 @keyframes caret{0%,49%{opacity:1;}50%,100%{opacity:0;}}
 
 /* ============================================================
-   09. ABOUT — FLOAT LAYOUT
+   08. ABOUT — FLOAT LAYOUT
    ============================================================ */
 .about{
     position:relative;
@@ -327,7 +301,7 @@ a:hover{opacity:.8;}
     box-shadow:0 0 16px var(--accent-glow);
 }
 
-/* ---------- 10. INFO ---------- */
+/* ---------- 09. INFO ---------- */
 .section-label{
     font-size:14px;letter-spacing:2px;text-transform:uppercase;
     color:var(--fg);margin-bottom:22px;
@@ -364,7 +338,7 @@ a:hover{opacity:.8;}
 }
 .info-val{font-size:14px;color:var(--fg);text-align:right;font-weight:600;}
 
-/* ---------- 11. SKILLS ---------- */
+/* ---------- 10. SKILLS ---------- */
 .skills-wrap{display:flex;flex-direction:column;gap:22px;margin-bottom:56px;}
 .skill-block{display:flex;flex-direction:column;gap:12px;}
 .skill-line{
@@ -394,7 +368,7 @@ a:hover{opacity:.8;}
     box-shadow:0 12px 26px var(--accent-glow);
 }
 
-/* ---------- 12. STATS ---------- */
+/* ---------- 11. STATS ---------- */
 .stats-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -441,7 +415,7 @@ a:hover{opacity:.8;}
     font-weight:500;
 }
 
-/* ---------- 13. TERMINAL ---------- */
+/* ---------- 12. TERMINAL ---------- */
 .terminal{
     border:1px solid var(--line-2);
     border-radius:14px;
@@ -479,7 +453,7 @@ a:hover{opacity:.8;}
 .term-body .c{color:var(--accent-3);}
 .term-body .g{color:#85858e;}
 
-/* ---------- 14. FOOTER ---------- */
+/* ---------- 13. FOOTER ---------- */
 .site-footer{
     position:relative;z-index:10;
     border-top:1px solid var(--line);
@@ -528,7 +502,7 @@ a:hover{opacity:.8;}
     box-shadow:0 12px 30px var(--accent-glow);
 }
 
-/* ---------- 15. REVEAL ---------- */
+/* ---------- 14. REVEAL ---------- */
 .reveal{
     opacity:0;
     transform:translateY(24px);
@@ -541,7 +515,7 @@ a:hover{opacity:.8;}
 .reveal.d3{transition-delay:240ms;}
 
 /* ============================================================
-   16. RESPONSIVE
+   15. RESPONSIVE
    ============================================================ */
 
 @media (min-width:640px){
@@ -647,13 +621,6 @@ a:hover{opacity:.8;}
 
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-    <img src="logo.png" alt="Fortech Dev Logo" class="loader-logo" />
-    <div class="loader-bar"><span></span></div>
-    <div class="loader-text">Loading Portfolio</div>
-</div>
-
 <!-- BACKGROUND -->
 <canvas id="bg-canvas"></canvas>
 <div class="bg-glow"></div>
@@ -677,7 +644,7 @@ a:hover{opacity:.8;}
 <!-- MAIN -->
 <main class="wrap" id="top">
 
-    <!-- HERO — TANPA EYEBROW, FULL CENTER -->
+    <!-- HERO -->
     <section class="hero reveal">
         <h1 class="hero-title">About Me</h1>
         <div class="hero-sub">
@@ -845,17 +812,6 @@ a:hover{opacity:.8;}
     const $$ = (s,c)=>Array.from((c||document).querySelectorAll(s));
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function initLoader(){
-        const loader = $('#loader');
-        if(!loader) return;
-        const hide = ()=>{
-            loader.classList.add('done');
-            setTimeout(()=>{ loader.style.display='none'; }, 800);
-        };
-        window.addEventListener('load', ()=> setTimeout(hide, 700));
-        setTimeout(hide, 4000);
-    }
-
     function initYear(){
         const el = $('#year');
         if(el) el.textContent = new Date().getFullYear();
@@ -899,7 +855,7 @@ a:hover{opacity:.8;}
                 setTimeout(tick,34);
             }
         }
-        setTimeout(tick,1200);
+        setTimeout(tick,800);
     }
 
     function initCounters(){
@@ -1087,7 +1043,6 @@ a:hover{opacity:.8;}
     }
 
     function boot(){
-        initLoader();
         initYear();
         initReveal();
         initTypewriter();
