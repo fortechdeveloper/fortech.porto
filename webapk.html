@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<meta name="theme-color" content="#0a0a0a" />
+<title>Web2APK Compiler — FirstTool Fortech</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0a0a0a;
+    color: #e8e8e8;
+    min-height: 100vh;
+    line-height: 1.55;
+    font-size: 14.5px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; background: #0a0a0a; }
+
+.bg-gradient {
+    position: absolute;
+    inset: -20%;
+    background:
+        radial-gradient(ellipse 60% 50% at 20% 20%, rgba(168, 85, 247, 0.16), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(239, 68, 68, 0.10), transparent 60%),
+        radial-gradient(ellipse 40% 40% at 60% 30%, rgba(168, 85, 247, 0.08), transparent 65%);
+    animation: gradientShift 24s ease-in-out infinite alternate;
+}
+
+@keyframes gradientShift {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50%  { transform: translate(-4%, 3%) rotate(4deg) scale(1.1); }
+    100% { transform: translate(3%, -3%) rotate(-3deg) scale(1.05); }
+}
+
+.bg-blob {
+    position: absolute;
+    width: 460px; height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.14), transparent 70%);
+    filter: blur(70px);
+    top: 5%; left: -180px;
+    animation: blobMove 28s ease-in-out infinite;
+}
+
+.bg-blob.b2 {
+    width: 380px; height: 380px;
+    top: auto; left: auto;
+    bottom: -120px; right: -140px;
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.10), transparent 70%);
+    animation-duration: 34s;
+    animation-direction: reverse;
+}
+
+@keyframes blobMove {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(160px, 120px) scale(1.15); }
+}
+
+.bg-grid {
+    position: absolute;
+    inset: -50px;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 25%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 25%, transparent 85%);
+    animation: gridMove 40s linear infinite;
+}
+
+@keyframes gridMove {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 48px 48px, 48px 48px; }
+}
+
+.bg-particles { position: absolute; inset: 0; overflow: hidden; }
+
+.particle {
+    position: absolute;
+    bottom: -10px;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: #a855f7;
+    opacity: 0;
+    box-shadow: 0 0 6px rgba(168, 85, 247, 0.7);
+    animation: particleRise linear infinite;
+}
+
+@keyframes particleRise {
+    0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+    15%  { opacity: 0.6; }
+    85%  { opacity: 0.4; }
+    100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+}
+
+.bg-scan {
+    position: absolute;
+    top: -20%; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.05), transparent);
+    animation: scan 12s linear infinite;
+}
+
+@keyframes scan {
+    from { transform: translateY(0); }
+    to   { transform: translateY(140vh); }
+}
+
+.container { max-width: 640px; margin: 0 auto; padding: 20px 16px 60px; position: relative; z-index: 1; }
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade { animation: fadeUp 0.5s ease-out both; }
+
+.top-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 0 22px; }
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: rgba(20, 20, 23, 0.7);
+    border: 1px solid #26262b;
+    color: #e8e8e8;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.back-btn:hover { border-color: #a855f7; background: rgba(23, 23, 27, 0.95); }
+.back-btn:active { transform: scale(0.98); }
+.back-btn i { font-size: 12px; color: #a855f7; }
+
+.top-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #6b6b73;
+    padding: 5px 11px;
+    border-radius: 100px;
+    background: rgba(20, 20, 23, 0.7);
+    border: 1px solid #26262b;
+}
+
+.top-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #a855f7;
+    box-shadow: 0 0 6px rgba(168, 85, 247, 0.8);
+}
+
+.top-status.online::before { background: #22c55e; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+
+.top-status.working::before {
+    background: #a855f7;
+    box-shadow: 0 0 6px rgba(168, 85, 247, 0.8);
+    animation: pulseDot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.hero-sm { text-align: center; padding: 4px 0 22px; }
+
+.hero-sm .hero-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 14px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #a855f7 0%, #6b21a8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    color: #fff;
+    box-shadow: 0 10px 28px -8px rgba(168, 85, 247, 0.6);
+}
+
+.hero-sm h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 6px;
+}
+
+.hero-sm h1 span { color: #a855f7; }
+
+.hero-sm p { font-size: 13px; color: #8a8a92; max-width: 400px; margin: 0 auto; }
+
+.panel {
+    background: rgba(19, 19, 22, 0.7);
+    border: 1px solid #222227;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.panel-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b6b73;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.panel-title i { font-size: 11px; color: #a855f7; }
+
+.field { margin-bottom: 12px; }
+.field:last-child { margin-bottom: 0; }
+
+.field label {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #8a8a92;
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 11px 13px;
+    background: #141418;
+    border: 1px solid #26262b;
+    border-radius: 10px;
+    color: #e8e8e8;
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.field input:focus,
+.field select:focus { border-color: #a855f7; background: #17171b; }
+
+.field input::placeholder { color: #4a4a52; }
+
+.field select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b73' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+.field select option { background: #141418; color: #e8e8e8; }
+
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 11px;
+    border: none;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.btn-primary {
+    background: linear-gradient(135deg, #a855f7 0%, #6b21a8 100%);
+    color: #fff;
+    box-shadow: 0 8px 22px -8px rgba(168, 85, 247, 0.6);
+    width: 100%;
+}
+
+.btn-primary:hover:not(:disabled) { box-shadow: 0 12px 28px -8px rgba(168, 85, 247, 0.85); }
+
+.btn-ghost {
+    background: #141418;
+    border: 1px solid #26262b;
+    color: #e8e8e8;
+    flex: 1;
+    justify-content: center;
+}
+
+.btn-ghost:hover:not(:disabled) { border-color: #a855f7; background: #17171b; }
+
+.btn-green {
+    background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+    color: #fff;
+    box-shadow: 0 8px 22px -8px rgba(34, 197, 94, 0.6);
+    width: 100%;
+    text-decoration: none;
+}
+
+.btn-green:hover { box-shadow: 0 12px 28px -8px rgba(34, 197, 94, 0.85); }
+
+.btn-row { display: flex; gap: 8px; margin-top: 10px; }
+.btn-row .btn { flex: 1; }
+
+.advanced-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 10px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8a8a92;
+    user-select: none;
+    border-top: 1px solid #1c1c20;
+    margin-top: 14px;
+    transition: color 0.2s ease;
+}
+
+.advanced-toggle:hover { color: #a855f7; }
+
+.advanced-toggle i {
+    transition: transform 0.25s ease;
+    font-size: 10px;
+}
+
+.advanced-toggle.open i { transform: rotate(180deg); }
+
+.advanced-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.advanced-body.open { max-height: 1200px; }
+
+.progress-wrap { margin-top: 6px; }
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 10px;
+}
+
+.progress-status {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #8a8a92;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.progress-status.active { color: #a855f7; }
+.progress-status.done   { color: #22c55e; }
+.progress-status.fail   { color: #ef4444; }
+
+.progress-status i { font-size: 12px; }
+
+.progress-percent {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: #f4f4f5;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #141418;
+    border: 1px solid #26262b;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, #a855f7, #6b21a8);
+    transition: width 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmerProgress 1.5s linear infinite;
+}
+
+@keyframes shimmerProgress {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(100%); }
+}
+
+.progress-fill.done { background: linear-gradient(90deg, #22c55e, #15803d); }
+.progress-fill.fail { background: linear-gradient(90deg, #ef4444, #b91c1c); }
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #6b6b73;
+    gap: 10px;
+}
+
+.progress-info span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.progress-info i { font-size: 10px; }
+
+.build-log {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    background: #0f0f12;
+    border: 1px solid #1c1c20;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: #8a8a92;
+    line-height: 1.7;
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.build-log::-webkit-scrollbar { width: 5px; }
+.build-log::-webkit-scrollbar-thumb { background: #26262b; border-radius: 3px; }
+
+.build-log .bl-item { display: flex; gap: 8px; }
+.build-log .bl-item.info { color: #8a8a92; }
+.build-log .bl-item.ok   { color: #22c55e; }
+.build-log .bl-item.err  { color: #ef4444; }
+.build-log .bl-item.wait { color: #a855f7; }
+
+.result-box {
+    margin-top: 16px;
+    padding: 18px;
+    border-radius: 14px;
+    background: linear-gradient(160deg, rgba(34, 197, 94, 0.08), rgba(20, 20, 23, 0.5));
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease-out both;
+}
+
+.result-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #22c55e, transparent);
+}
+
+.result-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    margin: 0 auto 12px;
+    box-shadow: 0 8px 20px -8px rgba(34, 197, 94, 0.6);
+}
+
+.result-title {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #f4f4f5;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+
+.result-subtitle {
+    text-align: center;
+    font-size: 12px;
+    color: #8a8a92;
+    margin-bottom: 16px;
+}
+
+.result-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.result-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #1c1c20;
+}
+
+.result-row-label {
+    font-size: 11.5px;
+    color: #8a8a92;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 500;
+}
+
+.result-row-label i { font-size: 11px; color: #22c55e; width: 12px; text-align: center; }
+
+.result-row-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: #f4f4f5;
+    font-weight: 600;
+    word-break: break-all;
+    text-align: right;
+    max-width: 60%;
+}
+
+.result-actions { display: flex; gap: 8px; }
+.result-actions .btn { flex: 1; }
+
+.empty {
+    text-align: center;
+    padding: 26px 16px;
+    color: #4a4a52;
+}
+
+.empty i {
+    font-size: 28px;
+    color: #26262b;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.empty p { font-size: 12.5px; line-height: 1.5; }
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 999;
+}
+
+.loading-overlay.active { display: flex; }
+
+.loading-spinner {
+    width: 34px;
+    height: 34px;
+    border: 3px solid #26262b;
+    border-top-color: #a855f7;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-text { font-size: 12.5px; color: #8a8a92; text-align: center; padding: 0 20px; }
+
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    padding: 11px 18px;
+    background: #17171b;
+    border: 1px solid #26262b;
+    border-radius: 11px;
+    color: #e8e8e8;
+    font-size: 12.5px;
+    font-weight: 500;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+    max-width: 90vw;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast i { font-size: 13px; }
+.toast.success i { color: #22c55e; }
+.toast.error i { color: #ef4444; }
+.toast.info i { color: #a855f7; }
+
+@media (max-width: 380px) {
+    .container { padding: 16px 12px 50px; }
+    .hero-sm h1 { font-size: 19px; }
+    .hero-sm .hero-icon { width: 56px; height: 56px; font-size: 22px; }
+    .panel { padding: 15px; }
+    .field-row { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 720px) {
+    .container { padding: 30px 24px 70px; }
+    .hero-sm h1 { font-size: 26px; }
+    .panel { padding: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bg-gradient, .bg-blob, .bg-grid, .bg-scan, .particle { animation: none !important; }
+    .progress-fill::after { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg">
+    <div class="bg-gradient"></div>
+    <div class="bg-blob"></div>
+    <div class="bg-blob b2"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-scan"></div>
+    <div class="bg-particles">
+        <span class="particle" style="left:6%;  animation-duration:16s; animation-delay:0s;"></span>
+        <span class="particle" style="left:16%; animation-duration:20s; animation-delay:3s; width:2px; height:2px;"></span>
+        <span class="particle" style="left:26%; animation-duration:14s; animation-delay:6s;"></span>
+        <span class="particle" style="left:36%; animation-duration:22s; animation-delay:1s; width:4px; height:4px;"></span>
+        <span class="particle" style="left:46%; animation-duration:18s; animation-delay:8s;"></span>
+        <span class="particle" style="left:56%; animation-duration:15s; animation-delay:4s; width:2px; height:2px;"></span>
+        <span class="particle" style="left:66%; animation-duration:19s; animation-delay:2s;"></span>
+        <span class="particle" style="left:76%; animation-duration:17s; animation-delay:7s; width:4px; height:4px;"></span>
+        <span class="particle" style="left:86%; animation-duration:21s; animation-delay:5s;"></span>
+        <span class="particle" style="left:94%; animation-duration:13s; animation-delay:9s; width:2px; height:2px;"></span>
+    </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loadingText">Memuat...</div>
+</div>
+
+<div class="container">
+
+    <div class="top-bar fade" style="animation-delay:0.02s">
+        <a href="index.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Kembali
+        </a>
+        <div class="top-status" id="statusChip">Siap</div>
+    </div>
+
+    <div class="hero-sm fade" style="animation-delay:0.06s">
+        <div class="hero-icon"><i class="fa-brands fa-android"></i></div>
+        <h1>Web <span>2 APK</span></h1>
+        <p>Compile website apa pun menjadi file APK Android siap install.</p>
+    </div>
+
+    <div class="panel fade" style="animation-delay:0.1s">
+        <div class="panel-title">
+            <i class="fa-solid fa-gear"></i>
+            Konfigurasi Aplikasi
+        </div>
+
+        <div class="field">
+            <label for="targetUrl">URL Website Target</label>
+            <input type="url" id="targetUrl" placeholder="https://example.com" autocomplete="off" spellcheck="false" inputmode="url" />
+        </div>
+
+        <div class="field">
+            <label for="appName">Nama Aplikasi</label>
+            <input type="text" id="appName" placeholder="My Web App" autocomplete="off" maxlength="40" />
+        </div>
+
+        <div class="field">
+            <label for="packageName">Package Name</label>
+            <input type="text" id="packageName" placeholder="com.mywebapp.app" autocomplete="off" spellcheck="false" maxlength="60" />
+        </div>
+
+        <div class="field field-row">
+            <div>
+                <label for="versionName">Versi</label>
+                <input type="text" id="versionName" value="1.0.0" autocomplete="off" maxlength="15" />
+            </div>
+            <div>
+                <label for="versionCode">Version Code</label>
+                <input type="text" id="versionCode" value="1" autocomplete="off" inputmode="numeric" maxlength="6" />
+            </div>
+        </div>
+
+        <div class="advanced-toggle" id="advToggle">
+            <span><i class="fa-solid fa-sliders"></i> Pengaturan Lanjutan</span>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+
+        <div class="advanced-body" id="advBody">
+            <div class="field" style="margin-top: 12px;">
+                <label for="orientation">Orientasi Layar</label>
+                <select id="orientation">
+                    <option value="auto">Auto</option>
+                    <option value="portrait">Portrait</option>
+                    <option value="landscape">Landscape</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="splashText">Teks Splash</label>
+                <input type="text" id="splashText" value="Loading..." autocomplete="off" maxlength="40" />
+            </div>
+
+            <div class="field field-row">
+                <div>
+                    <label for="splashBg">Warna BG Splash</label>
+                    <input type="text" id="splashBg" value="#0B0D10" autocomplete="off" maxlength="9" />
+                </div>
+                <div>
+                    <label for="splashFg">Warna Teks Splash</label>
+                    <input type="text" id="splashFg" value="#3B82F6" autocomplete="off" maxlength="9" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="splashMs">Durasi Splash (ms)</label>
+                <input type="text" id="splashMs" value="2000" autocomplete="off" inputmode="numeric" maxlength="6" />
+            </div>
+
+            <div class="field">
+                <label for="permissions">Permissions (pisah pakai koma)</label>
+                <input type="text" id="permissions" value="INTERNET, WAKE_LOCK" autocomplete="off" />
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="buildBtn" style="margin-top: 16px;">
+            <i class="fa-solid fa-hammer"></i>
+            Compile jadi APK
+        </button>
+    </div>
+
+    <div class="panel fade" style="animation-delay:0.14s; display:none;" id="progressPanel">
+        <div class="panel-title">
+            <i class="fa-solid fa-gauge-high"></i>
+            Proses Compile
+        </div>
+
+        <div class="progress-wrap">
+            <div class="progress-header">
+                <div class="progress-status" id="progressStatus">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                    <span>Menunggu...</span>
+                </div>
+                <div class="progress-percent" id="progressPercent">0%</div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="progress-info">
+                <span id="progressBuildId">
+                    <i class="fa-solid fa-fingerprint"></i>
+                    <span>Build ID: -</span>
+                </span>
+                <span id="progressAttempt">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Attempt: 0/60</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="build-log" id="buildLog"></div>
+
+        <div id="resultContainer"></div>
+    </div>
+
+</div>
+
+<div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMsg">OK</span>
+</div>
+
+<script>
+/* ============================================================
+   WEB2APK COMPILER — FirstTool Fortech
+   Direct fetch tanpa proxy
+   ============================================================ */
+
+(function () {
+    'use strict';
+
+    var BASE_URL = 'https://code-v-compiler-sr.vercel.app';
+    var MAX_ATTEMPTS = 60;
+    var POLL_INTERVAL = 2000;
+
+    var state = {
+        buildId: '',
+        polling: false,
+        completed: false,
+        pollTimer: null,
+        attempt: 0
+    };
+
+    var $ = function (id) { return document.getElementById(id); };
+
+    var elTargetUrl = $('targetUrl');
+    var elAppName = $('appName');
+    var elPackageName = $('packageName');
+    var elVersionName = $('versionName');
+    var elVersionCode = $('versionCode');
+    var elOrientation = $('orientation');
+    var elSplashText = $('splashText');
+    var elSplashBg = $('splashBg');
+    var elSplashFg = $('splashFg');
+    var elSplashMs = $('splashMs');
+    var elPermissions = $('permissions');
+    var elAdvToggle = $('advToggle');
+    var elAdvBody = $('advBody');
+    var elBuildBtn = $('buildBtn');
+    var elProgressPanel = $('progressPanel');
+    var elProgressStatus = $('progressStatus');
+    var elProgressPercent = $('progressPercent');
+    var elProgressFill = $('progressFill');
+    var elProgressBuildId = $('progressBuildId');
+    var elProgressAttempt = $('progressAttempt');
+    var elBuildLog = $('buildLog');
+    var elResultContainer = $('resultContainer');
+    var elStatusChip = $('statusChip');
+    var elToast = $('toast');
+    var elToastMsg = $('toastMsg');
+    var elLoading = $('loadingOverlay');
+    var elLoadingText = $('loadingText');
+
+    function showToast(message, type) {
+        type = type || 'success';
+        var icons = {
+            success: 'fa-circle-check',
+            error: 'fa-circle-exclamation',
+            info: 'fa-circle-info'
+        };
+        elToast.className = 'toast ' + type;
+        elToast.querySelector('i').className = 'fa-solid ' + icons[type];
+        elToastMsg.textContent = message;
+        elToast.classList.add('show');
+        clearTimeout(elToast._timer);
+        elToast._timer = setTimeout(function () {
+            elToast.classList.remove('show');
+        }, 3200);
+    }
+
+    function setLoading(on, text) {
+        if (on) {
+            elLoadingText.innerHTML = text || 'Memuat...';
+            elLoading.classList.add('active');
+        } else {
+            elLoading.classList.remove('active');
+        }
+    }
+
+    function setStatus(text, cls) {
+        elStatusChip.textContent = text;
+        elStatusChip.className = 'top-status' + (cls ? ' ' + cls : '');
+    }
+
+    function escapeHtml(s) {
+        if (s === null || s === undefined) return '';
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function clearLog() {
+        elBuildLog.innerHTML = '';
+    }
+
+    function log(msg, type) {
+        type = type || 'info';
+        var item = document.createElement('div');
+        item.className = 'bl-item ' + type;
+        var time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        item.textContent = '[' + time + '] ' + msg;
+        elBuildLog.appendChild(item);
+        elBuildLog.scrollTop = elBuildLog.scrollHeight;
+    }
+
+    function submitBuild(payload) {
+        return fetch(BASE_URL + '/api/build', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json, text/plain, */*'
+            },
+            body: JSON.stringify(payload)
+        }).then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+        });
+    }
+
+    function pollBuild(buildId) {
+        return fetch(BASE_URL + '/api/build/' + buildId, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        }).then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+        });
+    }
+
+    function startBuild() {
+        var url = (elTargetUrl.value || '').trim();
+        if (!url) {
+            showToast('Masukkan URL website dulu', 'error');
+            elTargetUrl.focus();
+            return;
+        }
+        if (!/^https?:\/\//i.test(url)) {
+            showToast('URL harus dimulai dengan http:// atau https://', 'error');
+            return;
+        }
+
+        var appName = (elAppName.value || '').trim() || 'MyWebApp';
+        var packageName = (elPackageName.value || '').trim() || 'com.mywebapp.app';
+        var versionName = (elVersionName.value || '').trim() || '1.0.0';
+        var versionCode = parseInt(elVersionCode.value, 10) || 1;
+
+        if (!/^[a-zA-Z][a-zA-Z0-9_]*(\.[a-zA-Z][a-zA-Z0-9_]*)+$/.test(packageName)) {
+            showToast('Package name tidak valid', 'error');
+            return;
+        }
+
+        var payload = {
+            url: url,
+            appName: appName,
+            packageName: packageName,
+            versionName: versionName,
+            versionCode: versionCode,
+            options: {
+                splash: true,
+                splashType: 'default',
+                splashText: (elSplashText.value || '').trim() || 'Loading...',
+                splashBg: (elSplashBg.value || '').trim() || '#0B0D10',
+                splashFg: (elSplashFg.value || '').trim() || '#3B82F6',
+                splashMs: parseInt(elSplashMs.value, 10) || 2000,
+                orientation: elOrientation.value || 'auto',
+                js: true,
+                zoom: false,
+                permissions: (elPermissions.value || '')
+                    .split(',')
+                    .map(function (s) { return s.trim().toUpperCase(); })
+                    .filter(function (s) { return s.length > 0; })
+            }
+        };
+
+        state.completed = false;
+        state.attempt = 0;
+
+        elBuildBtn.disabled = true;
+        elProgressPanel.style.display = 'block';
+        elResultContainer.innerHTML = '';
+        clearLog();
+        resetProgress();
+        log('Memulai build request...', 'wait');
+        setStatus('Submit...', 'working');
+        setLoading(true, 'Mengirim permintaan build...');
+
+        setTimeout(function () {
+            elProgressPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 200);
+
+        submitBuild(payload)
+            .then(function (data) {
+                setLoading(false);
+                if (!data || !data.build_id) {
+                    throw new Error('Response tidak punya build_id');
+                }
+                state.buildId = data.build_id;
+                log('Build ID: ' + state.buildId, 'ok');
+                updateBuildId(state.buildId);
+                updateStatus('active', 'fa-solid fa-spinner fa-spin', 'Build masuk antrean');
+                setStatus('Building...', 'working');
+                startPolling();
+            })
+            .catch(function (err) {
+                setLoading(false);
+                elBuildBtn.disabled = false;
+                setStatus('Gagal', '');
+                log('Gagal submit build: ' + err.message, 'err');
+                updateStatus('fail', 'fa-solid fa-circle-xmark', 'Submit gagal');
+                elProgressFill.classList.add('fail');
+                showToast('Gagal: ' + err.message, 'error');
+            });
+    }
+
+    function startPolling() {
+        state.polling = true;
+        state.attempt = 0;
+        pollOnce();
+    }
+
+    function pollOnce() {
+        if (!state.polling || state.completed) return;
+
+        state.attempt++;
+        updateAttempt(state.attempt);
+
+        if (state.attempt > MAX_ATTEMPTS) {
+            stopPolling();
+            onBuildFail('Build timeout (lebih dari 2 menit)');
+            return;
+        }
+
+        pollBuild(state.buildId)
+            .then(function (data) {
+                if (!data) {
+                    scheduleNextPoll();
+                    return;
+                }
+
+                var status = data.status || 'unknown';
+                var progress = typeof data.progress === 'number' ? data.progress : 0;
+
+                updateProgress(progress);
+
+                var statusLabels = {
+                    queued: 'Menunggu antrean',
+                    preparing: 'Menyiapkan build',
+                    building: 'Mengcompile APK',
+                    packaging: 'Packaging APK',
+                    processing: 'Memproses',
+                    ready: 'Selesai',
+                    completed: 'Selesai',
+                    failed: 'Gagal',
+                    error: 'Error'
+                };
+
+                var label = statusLabels[status] || status;
+                updateStatus('active', 'fa-solid fa-spinner fa-spin', label);
+
+                if (data.log && Array.isArray(data.log) && data.log.length > 0) {
+                    var lastLogs = data.log.slice(-3);
+                    lastLogs.forEach(function (l) {
+                        var logText = typeof l === 'string' ? l : (l.message || JSON.stringify(l));
+                        if (elBuildLog.lastElementChild && elBuildLog.lastElementChild.textContent.indexOf(logText) !== -1) return;
+                        log(logText, 'info');
+                    });
+                }
+
+                if (status === 'ready' || status === 'completed') {
+                    state.completed = true;
+                    stopPolling();
+                    onBuildSuccess(data);
+                    return;
+                }
+
+                if (status === 'failed' || status === 'error') {
+                    state.completed = true;
+                    stopPolling();
+                    onBuildFail(data.error || 'Build gagal tanpa detail');
+                    return;
+                }
+
+                scheduleNextPoll();
+            })
+            .catch(function (err) {
+                log('Polling error: ' + err.message, 'err');
+                scheduleNextPoll();
+            });
+    }
+
+    function scheduleNextPoll() {
+        if (!state.polling || state.completed) return;
+        clearTimeout(state.pollTimer);
+        state.pollTimer = setTimeout(pollOnce, POLL_INTERVAL);
+    }
+
+    function stopPolling() {
+        state.polling = false;
+        clearTimeout(state.pollTimer);
+    }
+
+    function onBuildSuccess(data) {
+        elBuildBtn.disabled = false;
+        setStatus('Selesai', 'online');
+        updateStatus('done', 'fa-solid fa-circle-check', 'APK siap di-download');
+        updateProgress(100);
+        elProgressFill.classList.add('done');
+        log('Build sukses!', 'ok');
+
+        var downloadPath = data.download_url || ('/cdn/' + state.buildId + '.apk');
+        var downloadUrl = downloadPath.indexOf('http') === 0
+            ? downloadPath
+            : BASE_URL + downloadPath;
+
+        var fileName = (elAppName.value || 'app').trim().replace(/[^a-zA-Z0-9]/g, '_') + '_v' + (elVersionName.value || '1.0.0').trim() + '.apk';
+        var fileSize = data.file_size || null;
+
+        renderResult({
+            buildId: state.buildId,
+            appName: (elAppName.value || 'MyWebApp').trim(),
+            packageName: (elPackageName.value || 'com.mywebapp.app').trim(),
+            versionName: (elVersionName.value || '1.0.0').trim(),
+            targetUrl: (elTargetUrl.value || '').trim(),
+            downloadUrl: downloadUrl,
+            fileName: fileName,
+            fileSize: fileSize
+        });
+
+        showToast('APK berhasil di-compile', 'success');
+
+        setTimeout(function () {
+            elResultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+    }
+
+    function onBuildFail(msg) {
+        elBuildBtn.disabled = false;
+        setStatus('Gagal', '');
+        updateStatus('fail', 'fa-solid fa-circle-xmark', 'Build gagal');
+        elProgressFill.classList.add('fail');
+        log('Build gagal: ' + msg, 'err');
+        showToast('Build gagal: ' + msg, 'error');
+    }
+
+    function resetProgress() {
+        elProgressFill.className = 'progress-fill';
+        elProgressFill.style.width = '0%';
+        elProgressPercent.textContent = '0%';
+        elProgressStatus.className = 'progress-status';
+        elProgressStatus.innerHTML = '<i class="fa-solid fa-hourglass-half"></i><span>Menunggu...</span>';
+        elProgressBuildId.querySelector('span').textContent = 'Build ID: -';
+        elProgressAttempt.querySelector('span').textContent = 'Attempt: 0/' + MAX_ATTEMPTS;
+    }
+
+    function updateProgress(percent) {
+        percent = Math.max(0, Math.min(100, percent));
+        elProgressFill.style.width = percent + '%';
+        elProgressPercent.textContent = Math.round(percent) + '%';
+    }
+
+    function updateStatus(cls, iconClass, text) {
+        elProgressStatus.className = 'progress-status ' + cls;
+        elProgressStatus.innerHTML = '<i class="' + iconClass + '"></i><span>' + escapeHtml(text) + '</span>';
+    }
+
+    function updateBuildId(id) {
+        elProgressBuildId.querySelector('span').textContent = 'Build ID: ' + id;
+    }
+
+    function updateAttempt(n) {
+        elProgressAttempt.querySelector('span').textContent = 'Attempt: ' + n + '/' + MAX_ATTEMPTS;
+    }
+
+    function renderResult(info) {
+        var html = '';
+        html += '<div class="result-box">';
+        html += '<div class="result-icon"><i class="fa-brands fa-android"></i></div>';
+        html += '<div class="result-title">APK Siap Digunakan</div>';
+        html += '<div class="result-subtitle">Download dan install di perangkat Android kamu</div>';
+
+        html += '<div class="result-rows">';
+        html += '<div class="result-row"><div class="result-row-label"><i class="fa-solid fa-mobile-screen"></i>Nama App</div><div class="result-row-value">' + escapeHtml(info.appName) + '</div></div>';
+        html += '<div class="result-row"><div class="result-row-label"><i class="fa-solid fa-tag"></i>Package</div><div class="result-row-value">' + escapeHtml(info.packageName) + '</div></div>';
+        html += '<div class="result-row"><div class="result-row-label"><i class="fa-solid fa-code-branch"></i>Versi</div><div class="result-row-value">' + escapeHtml(info.versionName) + '</div></div>';
+        html += '<div class="result-row"><div class="result-row-label"><i class="fa-solid fa-link"></i>Target</div><div class="result-row-value">' + escapeHtml(info.targetUrl) + '</div></div>';
+        if (info.fileSize) {
+            html += '<div class="result-row"><div class="result-row-label"><i class="fa-solid fa-file-zipper"></i>Ukuran</div><div class="result-row-value">' + escapeHtml(String(info.fileSize)) + '</div></div>';
+        }
+        html += '</div>';
+
+        html += '<div class="result-actions">';
+        html += '<a class="btn btn-green" href="' + escapeHtml(info.downloadUrl) + '" download="' + escapeHtml(info.fileName) + '" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-download"></i>Download APK</a>';
+        html += '<button type="button" class="btn btn-ghost" id="copyUrlBtn"><i class="fa-regular fa-copy"></i>Salin Link</button>';
+        html += '</div>';
+        html += '</div>';
+
+        elResultContainer.innerHTML = html;
+
+        var copyBtn = document.getElementById('copyUrlBtn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', function () {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(info.downloadUrl).then(function () {
+                        showToast('Link disalin', 'success');
+                    }).catch(function () {
+                        fallbackCopy(info.downloadUrl);
+                        showToast('Link disalin', 'success');
+                    });
+                } else {
+                    fallbackCopy(info.downloadUrl);
+                    showToast('Link disalin', 'success');
+                }
+            });
+        }
+    }
+
+    function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+    }
+
+    elAdvToggle.addEventListener('click', function () {
+        elAdvToggle.classList.toggle('open');
+        elAdvBody.classList.toggle('open');
+    });
+
+    elBuildBtn.addEventListener('click', startBuild);
+
+    elAppName.addEventListener('blur', function () {
+        if (!elPackageName.value && elAppName.value) {
+            var slug = elAppName.value.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (slug) elPackageName.value = 'com.' + slug + '.app';
+        }
+    });
+
+    setStatus('Siap', 'online');
+    console.log('[Web2APK] loaded');
+
+})();
+</script>
+
+</body>
+  </html>
