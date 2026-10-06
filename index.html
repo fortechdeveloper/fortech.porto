@@ -319,14 +319,12 @@ h1.title span { color: #ef4444; }
 .card-title { font-size: 13.5px; font-weight: 600; color: #f4f4f5; line-height: 1.3; }
 .card-desc { font-size: 11.5px; color: #6b6b73; margin-top: 2px; }
 
-.card-downloader { --accent: #38bdf8; }
-.card-vercel     { --accent: #ffffff; }
-.card-netlify    { --accent: #00c7b7; }
-.card-email      { --accent: #f59e0b; }
+.card-stalker { --accent: #f59e0b; }
+.card-vercel  { --accent: #ffffff; }
+.card-netlify { --accent: #00c7b7; }
+.card-email   { --accent: #22c55e; }
 
-.card-wide {
-    grid-column: span 2;
-}
+.card-wide { grid-column: span 2; }
 
 .footer { text-align: center; padding: 24px 0 0; border-top: 1px solid #1c1c20; margin-top: 6px; }
 .footer-brand { font-size: 12px; font-weight: 600; color: #4a4a52; margin-bottom: 5px; }
@@ -425,7 +423,7 @@ h1.title span { color: #ef4444; }
             <img src="logo.png" alt="" id="logoImg" />
         </div>
         <h1 class="title">FirstTool <span>Fortech</span></h1>
-        <p class="subtitle">Downloader, deployer, dan generator dalam satu tempat.</p>
+        <p class="subtitle">Kumpulan tools praktis dalam satu tempat.</p>
     </div>
 
     <div class="about-wrap fade" style="animation-delay:0.1s">
@@ -440,28 +438,33 @@ h1.title span { color: #ef4444; }
     </div>
 
     <div class="section-title fade" style="animation-delay:0.14s">
-        <i class="fa-solid fa-download"></i> Downloader
+        <i class="fa-solid fa-toolbox"></i> Tools
     </div>
 
     <div class="grid">
-        <div class="card card-downloader card-wide" data-tool="downloader" data-href="download.html" data-label="Buka All in One Downloader...">
+        <div class="card card-stalker card-wide" data-href="ff.html" data-label="Buka FreeFire Stalker...">
             <div class="card-top">
-                <div class="card-icon"><i class="fa-solid fa-cloud-arrow-down"></i></div>
+                <div class="card-icon"><i class="fa-solid fa-crosshairs"></i></div>
                 <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
             </div>
             <div>
-                <div class="card-title">All in One Downloader</div>
-                <div class="card-desc">TikTok, Instagram, YouTube, Pinterest, dan lainnya dalam satu tools</div>
+                <div class="card-title">FreeFire Stalker</div>
+                <div class="card-desc">Cek nickname akun FreeFire dari User ID</div>
             </div>
         </div>
-    </div>
 
-    <div class="section-title fade" style="animation-delay:0.18s">
-        <i class="fa-solid fa-rocket"></i> Deployer
-    </div>
+        <div class="card card-email" data-href="generator.html" data-label="Buka Email Generator...">
+            <div class="card-top">
+                <div class="card-icon"><i class="fa-solid fa-envelope"></i></div>
+                <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
+            </div>
+            <div>
+                <div class="card-title">Email Generator</div>
+                <div class="card-desc">Temp mail instan</div>
+            </div>
+        </div>
 
-    <div class="grid">
-        <div class="card card-vercel" data-tool="vercel">
+        <div class="card card-vercel" data-href="#" data-tool="vercel">
             <div class="card-top">
                 <div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                 <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
@@ -472,7 +475,7 @@ h1.title span { color: #ef4444; }
             </div>
         </div>
 
-        <div class="card card-netlify" data-tool="netlify">
+        <div class="card card-netlify" data-href="#" data-tool="netlify">
             <div class="card-top">
                 <div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                 <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
@@ -484,24 +487,7 @@ h1.title span { color: #ef4444; }
         </div>
     </div>
 
-    <div class="section-title fade" style="animation-delay:0.22s">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> Generator
-    </div>
-
-    <div class="grid" style="margin-bottom: 32px;">
-        <div class="card card-email" data-tool="email" data-href="generator.html" data-label="Buka Email Generator...">
-            <div class="card-top">
-                <div class="card-icon"><i class="fa-solid fa-envelope"></i></div>
-                <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
-            </div>
-            <div>
-                <div class="card-title">Email Generator</div>
-                <div class="card-desc">Temp mail instan</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer fade" style="animation-delay:0.26s">
+    <div class="footer fade" style="animation-delay:0.18s">
         <div class="footer-brand">FirstTool Fortech</div>
         <div class="footer-copy">&copy; <span id="year"></span> FortechDev</div>
     </div>
@@ -524,7 +510,10 @@ var overlay = document.getElementById('overlay');
 var overlayText = document.getElementById('overlayText');
 
 function navigateTo(href, label) {
-    if (!href) return;
+    if (!href || href === '#') {
+        console.log('Tool belum tersedia');
+        return;
+    }
     if (overlayText && label) overlayText.textContent = label;
     if (overlay) overlay.classList.add('active');
     setTimeout(function () { window.location.href = href; }, 320);
@@ -541,11 +530,10 @@ document.querySelectorAll('.card').forEach(function (card) {
     card.addEventListener('click', function () {
         var href = card.getAttribute('data-href');
         var label = card.getAttribute('data-label');
-        var tool = card.getAttribute('data-tool');
-        if (href) {
+        if (href && href !== '#') {
             navigateTo(href, label);
         } else {
-            console.log(tool);
+            console.log('Belum tersedia:', card.getAttribute('data-tool'));
         }
     });
 });
