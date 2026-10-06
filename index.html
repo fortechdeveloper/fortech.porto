@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#0a0a0a" />
-<title>FirstTool Fortech — All in One Tools</title>
+<title>FirstTool Fortech</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,10 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
 <style>
-/* ============================================================
-   RESET
-   ============================================================ */
-*, *::before, *::after {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -29,473 +26,286 @@ html {
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #08080a;
-    color: #ededf0;
+    background: #0a0a0a;
+    color: #e8e8e8;
     min-height: 100vh;
     line-height: 1.55;
     font-size: 14.5px;
-    font-weight: 400;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    letter-spacing: -0.005em;
 }
 
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: #08080a; }
-::-webkit-scrollbar-thumb {
-    background: #26262c;
-    border-radius: 10px;
-    border: 2px solid #08080a;
-}
-::-webkit-scrollbar-thumb:hover { background: #38383f; }
-
-/* ============================================================
-   BACKGROUND
-   ============================================================ */
+/* Background */
 .bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-}
-
-.bg::before {
-    content: '';
-    position: absolute;
-    top: -400px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 900px;
-    height: 700px;
-    background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.10), transparent 65%);
-    filter: blur(40px);
-}
-
-.bg::after {
-    content: '';
-    position: absolute;
-    bottom: -300px;
-    right: -200px;
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, rgba(239, 68, 68, 0.06), transparent 65%);
-    filter: blur(50px);
+    background:
+        radial-gradient(ellipse 60% 40% at 50% 0%, rgba(239, 68, 68, 0.08), transparent 70%),
+        radial-gradient(circle at 90% 100%, rgba(239, 68, 68, 0.05), transparent 60%);
 }
 
 .bg-grid {
     position: absolute;
     inset: 0;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 90%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 90%);
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 50% at 50% 30%, #000 30%, transparent 90%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 30%, #000 30%, transparent 90%);
 }
 
-.bg-blob {
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(239, 68, 68, 0.12), transparent 70%);
-    filter: blur(80px);
-    top: 10%;
-    left: -200px;
-    animation: drift 30s ease-in-out infinite;
-}
-
-@keyframes drift {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(140px, 180px) scale(1.15); }
-}
-
-/* ============================================================
-   CONTAINER
-   ============================================================ */
+/* Container */
 .container {
-    max-width: 700px;
+    max-width: 640px;
     margin: 0 auto;
-    padding: 24px 18px 60px;
+    padding: 22px 18px 50px;
     position: relative;
     z-index: 1;
 }
 
-/* ============================================================
-   ENTRANCE ANIMATIONS
-   ============================================================ */
+/* Fade in */
 @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-.anim {
-    animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+.fade {
+    animation: fadeUp 0.5s ease-out both;
 }
-.d-1 { animation-delay: 0.05s; }
-.d-2 { animation-delay: 0.12s; }
-.d-3 { animation-delay: 0.20s; }
-.d-4 { animation-delay: 0.28s; }
-.d-5 { animation-delay: 0.36s; }
-.d-6 { animation-delay: 0.44s; }
 
-/* ============================================================
-   TOP NAV
-   ============================================================ */
-.nav {
+/* Header */
+.header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 0;
-    margin-bottom: 40px;
+    padding: 10px 0 24px;
 }
 
-.nav-brand {
+.header-logo {
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 8px;
     font-size: 13.5px;
     font-weight: 600;
-    color: #ededf0;
-    letter-spacing: -0.01em;
+    color: #e8e8e8;
 }
 
-.nav-brand-mark {
-    width: 24px;
-    height: 24px;
-    border-radius: 7px;
-    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+.header-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: #ef4444;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 700;
     color: #fff;
-    letter-spacing: 0;
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
 }
 
-.nav-brand span { color: #71717a; font-weight: 500; }
-
-.nav-status {
+.header-status {
+    font-size: 11px;
+    color: #6b6b73;
     display: flex;
     align-items: center;
-    gap: 7px;
-    font-size: 11.5px;
-    font-weight: 500;
-    color: #a1a1aa;
-    padding: 5px 11px 5px 9px;
-    border-radius: 100px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 6px;
 }
 
-.nav-status .dot {
+.header-status::before {
+    content: '';
     width: 6px;
     height: 6px;
-    background: #22c55e;
     border-radius: 50%;
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+    background: #22c55e;
 }
 
-/* ============================================================
-   HERO
-   ============================================================ */
+/* Hero */
 .hero {
     text-align: center;
-    padding: 8px 0 36px;
+    padding: 12px 0 30px;
 }
 
-.logo-wrap {
-    display: inline-block;
-    margin-bottom: 22px;
-}
-
-.logo {
-    position: relative;
-    width: 104px;
-    height: 104px;
-    border-radius: 24px;
+.logo-box {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 20px;
+    border-radius: 22px;
     overflow: hidden;
-    background: linear-gradient(160deg, #17171a 0%, #0f0f12 100%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #17171a;
+    border: 1px solid #26262b;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(239, 68, 68, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    position: relative;
 }
 
-/* Fallback FT — hanya tampil kalau logo.png gagal load */
-.logo-fallback {
-    font-size: 34px;
+.logo-box .fallback {
+    font-size: 30px;
     font-weight: 700;
     color: #ef4444;
-    letter-spacing: -0.02em;
     line-height: 1;
 }
 
-.logo img {
+.logo-box img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 
-.hero-title {
-    font-size: 28px;
+h1.title {
+    font-size: 26px;
     font-weight: 700;
-    color: #ffffff;
-    letter-spacing: -0.03em;
-    line-height: 1.2;
-    margin-bottom: 10px;
+    color: #fff;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.25;
 }
 
-.hero-title .accent {
-    background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+h1.title span {
+    color: #ef4444;
 }
 
-.hero-sub {
-    font-size: 14px;
+.subtitle {
+    font-size: 13.5px;
     color: #8a8a92;
-    max-width: 420px;
+    max-width: 380px;
     margin: 0 auto;
-    line-height: 1.6;
 }
 
-/* ============================================================
-   ABOUT BUTTON
-   ============================================================ */
+/* About button */
 .about-wrap {
-    margin-bottom: 36px;
+    margin-bottom: 34px;
 }
 
 .about-btn {
-    position: relative;
     display: flex;
     align-items: center;
     gap: 14px;
     width: 100%;
-    padding: 16px 20px;
-    background: linear-gradient(180deg, #1a1a1e 0%, #141418 100%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    padding: 15px 18px;
+    background: #141417;
+    border: 1px solid #26262b;
+    border-radius: 14px;
     cursor: pointer;
-    color: #ededf0;
+    color: #e8e8e8;
     text-align: left;
     font-family: inherit;
-    overflow: hidden;
-    isolation: isolate;
-    transition:
-        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 0.28s ease,
-        box-shadow 0.28s ease;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-}
-
-.about-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 0% 50%, rgba(239, 68, 68, 0.14), transparent 50%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: -1;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .about-btn:hover {
-    transform: translateY(-2px);
-    border-color: rgba(239, 68, 68, 0.4);
-    box-shadow:
-        0 12px 28px rgba(0, 0, 0, 0.45),
-        0 0 0 1px rgba(239, 68, 68, 0.15),
-        0 0 32px -12px rgba(239, 68, 68, 0.5);
+    background: #17171b;
+    border-color: #ef4444;
 }
 
-.about-btn:hover::before { opacity: 1; }
-
 .about-btn:active {
-    transform: translateY(0) scale(0.99);
+    transform: scale(0.99);
 }
 
 .about-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: #ef4444;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 17px;
+    font-size: 16px;
     color: #fff;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.about-btn:hover .about-icon {
-    transform: scale(1.06) rotate(-4deg);
 }
 
 .about-text {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    flex: 1;
     line-height: 1.3;
 }
 
 .about-text small {
     font-size: 11px;
-    font-weight: 500;
-    color: #71717a;
-    letter-spacing: 0;
+    color: #6b6b73;
 }
 
 .about-text strong {
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 600;
-    color: #ffffff;
-    letter-spacing: -0.01em;
-    margin-top: 1px;
+    color: #fff;
 }
 
 .about-arrow {
-    font-size: 14px;
-    color: #71717a;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+    font-size: 13px;
+    color: #6b6b73;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .about-btn:hover .about-arrow {
-    transform: translateX(4px);
+    transform: translateX(3px);
     color: #ef4444;
 }
 
-/* ============================================================
-   SECTION HEADER
-   ============================================================ */
-.section-head {
+/* Section title */
+.section-title {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 0 2px 14px;
-}
-
-.section-head-label {
-    font-size: 11.5px;
+    margin: 0 2px 12px;
+    font-size: 12px;
     font-weight: 600;
-    color: #71717a;
+    color: #6b6b73;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    display: flex;
-    align-items: center;
-    gap: 7px;
+    letter-spacing: 0.06em;
 }
 
-.section-head-label i {
-    font-size: 10.5px;
+.section-title i {
+    font-size: 11px;
     color: #ef4444;
 }
 
-.section-head-divider {
+.section-title::after {
+    content: '';
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.06), transparent);
+    background: linear-gradient(90deg, #26262b, transparent);
 }
 
-/* ============================================================
-   GRID
-   ============================================================ */
+/* Grid */
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
 }
 
-/* ============================================================
-   CARD
-   ============================================================ */
+/* Card */
 .card {
-    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding: 16px;
-    background: linear-gradient(180deg, #131316 0%, #0f0f12 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 14px;
+    gap: 12px;
+    padding: 15px;
+    background: #131316;
+    border: 1px solid #222227;
+    border-radius: 13px;
     cursor: pointer;
-    overflow: hidden;
-    isolation: isolate;
-    transition:
-        transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 0.3s ease,
-        background 0.3s ease;
-    -webkit-user-select: none;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
     user-select: none;
-    opacity: 0;
-    animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent, #ef4444) 60%, transparent), transparent);
-    opacity: 0;
-    transition: opacity 0.4s ease;
+.card:hover {
+    background: #17171b;
+    border-color: var(--accent, #ef4444);
+    transform: translateY(-2px);
 }
 
 .card:active {
-    transform: scale(0.98);
-    transition-duration: 0.1s;
+    transform: translateY(0) scale(0.99);
 }
-
-@media (hover: hover) {
-    .card:hover {
-        transform: translateY(-3px);
-        background: linear-gradient(180deg, #17171b 0%, #111114 100%);
-        border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .card:hover::before { opacity: 1; }
-
-    .card:hover .card-icon {
-        transform: scale(1.06);
-        border-color: color-mix(in srgb, var(--accent, #ef4444) 50%, transparent);
-        box-shadow:
-            0 0 0 1px color-mix(in srgb, var(--accent, #ef4444) 30%, transparent),
-            0 8px 20px -8px var(--accent, #ef4444);
-    }
-
-    .card:hover .card-icon i {
-        color: var(--accent, #ef4444);
-    }
-
-    .card:hover .card-arrow {
-        transform: translateX(3px);
-        color: #ededf0;
-    }
-}
-
-.grid .card:nth-child(1) { animation-delay: 0.30s; }
-.grid .card:nth-child(2) { animation-delay: 0.36s; }
-.grid .card:nth-child(3) { animation-delay: 0.42s; }
-.grid .card:nth-child(4) { animation-delay: 0.48s; }
-.grid.secondary .card:nth-child(1) { animation-delay: 0.56s; }
-.grid.secondary .card:nth-child(2) { animation-delay: 0.62s; }
 
 .card-top {
     display: flex;
@@ -504,50 +314,48 @@ body {
 }
 
 .card-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
     background: #1a1a1e;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid #26262b;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    transition:
-        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 0.35s ease,
-        box-shadow 0.35s ease;
+    font-size: 17px;
 }
 
 .card-icon i {
-    color: #a1a1aa;
-    transition: color 0.35s ease;
+    color: #9a9aa2;
+    transition: color 0.2s ease;
+}
+
+.card:hover .card-icon i {
+    color: var(--accent, #ef4444);
 }
 
 .card-arrow {
-    font-size: 11px;
-    color: #52525b;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+    font-size: 10px;
+    color: #4a4a52;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.card-body {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+.card:hover .card-arrow {
+    transform: translateX(2px);
+    color: #8a8a92;
 }
 
 .card-title {
     font-size: 13.5px;
     font-weight: 600;
     color: #f4f4f5;
-    letter-spacing: -0.01em;
     line-height: 1.3;
 }
 
 .card-desc {
     font-size: 11.5px;
-    color: #71717a;
-    line-height: 1.4;
+    color: #6b6b73;
+    margin-top: 2px;
 }
 
 .card-tiktok    { --accent: #25f4ee; }
@@ -557,63 +365,41 @@ body {
 .card-vercel    { --accent: #ffffff; }
 .card-netlify   { --accent: #00c7b7; }
 
-/* ============================================================
-   FOOTER
-   ============================================================ */
+/* Footer */
 .footer {
     text-align: center;
-    padding: 32px 0 0;
-    margin-top: 4px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 24px 0 0;
+    border-top: 1px solid #1c1c20;
+    margin-top: 6px;
 }
 
 .footer-brand {
     font-size: 12px;
     font-weight: 600;
-    color: #52525b;
-    letter-spacing: 0.02em;
-    margin-bottom: 6px;
+    color: #4a4a52;
+    margin-bottom: 5px;
 }
 
 .footer-copy {
     font-size: 11.5px;
-    color: #3f3f46;
-    line-height: 1.7;
+    color: #3d3d44;
 }
 
-.footer-copy i {
-    color: #ef4444;
-    font-size: 9px;
-    margin: 0 1px;
-    animation: beat 1.8s ease-in-out infinite;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-@keyframes beat {
-    0%, 100% { transform: scale(1); }
-    25%      { transform: scale(1.25); }
-    50%      { transform: scale(1); }
-    75%      { transform: scale(1.18); }
-}
-
-/* ============================================================
-   OVERLAY
-   ============================================================ */
+/* Overlay */
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(8, 8, 10, 0.85);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 16px;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.28s ease, visibility 0.28s ease;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
     z-index: 999;
 }
 
@@ -623,12 +409,12 @@ body {
 }
 
 .spinner {
-    width: 34px;
-    height: 34px;
-    border: 2.5px solid rgba(255, 255, 255, 0.08);
+    width: 32px;
+    height: 32px;
+    border: 2.5px solid #26262b;
     border-top-color: #ef4444;
     border-radius: 50%;
-    animation: spin 0.75s linear infinite;
+    animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
@@ -637,122 +423,74 @@ body {
 
 .overlay-text {
     font-size: 12.5px;
-    font-weight: 500;
-    color: #a1a1aa;
-    letter-spacing: 0.02em;
+    color: #8a8a92;
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
+/* Mobile kecil */
 @media (max-width: 380px) {
-    .container { padding: 18px 14px 50px; }
-    .hero { padding: 4px 0 28px; }
-    .hero-title { font-size: 24px; }
-    .hero-sub { font-size: 13px; }
-    .logo { width: 92px; height: 92px; border-radius: 22px; }
-    .logo-fallback { font-size: 30px; }
-    .about-btn { padding: 14px 16px; }
-    .card { padding: 14px; gap: 12px; }
-    .card-icon { width: 38px; height: 38px; font-size: 17px; }
-    .card-title { font-size: 12.5px; }
-    .card-desc { font-size: 11px; }
+    .container { padding: 18px 14px 40px; }
+    h1.title { font-size: 22px; }
+    .logo-box { width: 84px; height: 84px; border-radius: 18px; }
+    .logo-box .fallback { font-size: 26px; }
+    .card { padding: 13px; }
+    .card-icon { width: 36px; height: 36px; font-size: 16px; }
 }
 
-@media (min-width: 640px) {
-    .container { padding: 32px 24px 72px; }
-    .hero { padding: 16px 0 48px; }
-    .hero-title { font-size: 34px; }
-    .hero-sub { font-size: 15px; }
-    .logo { width: 120px; height: 120px; border-radius: 28px; }
-    .logo-fallback { font-size: 40px; }
-
-    .about-btn { padding: 18px 22px; gap: 16px; }
-    .about-icon { width: 46px; height: 46px; font-size: 19px; }
-    .about-text strong { font-size: 16px; }
-
-    .grid { gap: 12px; }
-    .card { padding: 18px; }
-    .card-icon { width: 44px; height: 44px; font-size: 19px; }
-    .card-title { font-size: 14.5px; }
-    .card-desc { font-size: 12px; }
-}
-
-@media (min-width: 900px) {
-    .container { max-width: 860px; }
-    .grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.001ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.001ms !important;
-    }
-    .bg-blob { display: none; }
+/* Desktop */
+@media (min-width: 720px) {
+    .container { padding: 30px 24px 60px; }
+    h1.title { font-size: 32px; }
+    .logo-box { width: 112px; height: 112px; border-radius: 24px; }
+    .logo-box .fallback { font-size: 36px; }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .card { padding: 17px; }
+    .card-icon { width: 42px; height: 42px; font-size: 18px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Background -->
 <div class="bg">
     <div class="bg-grid"></div>
-    <div class="bg-blob"></div>
 </div>
 
-<!-- Overlay redirect -->
 <div class="overlay" id="overlay">
     <div class="spinner"></div>
-    <div class="overlay-text">Membuka halaman porto...</div>
+    <div class="overlay-text">Buka porto...</div>
 </div>
 
-<!-- Container -->
 <div class="container">
 
-    <!-- Nav -->
-    <nav class="nav anim d-1">
-        <div class="nav-brand">
-            <span class="nav-brand-mark">FT</span>
-            FirstTool <span>Fortech</span>
+    <div class="header fade" style="animation-delay:0.02s">
+        <div class="header-logo">
+            <span class="header-mark">FT</span>
+            FirstTool Fortech
         </div>
-        <div class="nav-status">
-            <span class="dot"></span>
-            Online
-        </div>
-    </nav>
+        <div class="header-status">Online</div>
+    </div>
 
-    <!-- Hero -->
-    <header class="hero anim d-2">
-        <div class="logo-wrap">
-            <div class="logo" id="logoBox">
-                <span class="logo-fallback">FT</span>
-                <img src="logo.png" alt="Logo FirstTool Fortech" id="logoImg" />
-            </div>
+    <div class="hero fade" style="animation-delay:0.06s">
+        <div class="logo-box">
+            <span class="fallback">FT</span>
+            <img src="logo.png" alt="" id="logoImg" />
         </div>
-        <h1 class="hero-title">FirstTool <span class="accent">Fortech</span></h1>
-        <p class="hero-sub">Downloader dan deployer dalam satu tempat. Cepat, ringan, tanpa ribet.</p>
-    </header>
+        <h1 class="title">FirstTool <span>Fortech</span></h1>
+        <p class="subtitle">Downloader dan deployer dalam satu tempat.</p>
+    </div>
 
-    <!-- About Me -->
-    <div class="about-wrap anim d-3">
+    <div class="about-wrap fade" style="animation-delay:0.1s">
         <button type="button" class="about-btn" id="aboutBtn">
             <span class="about-icon"><i class="fa-solid fa-user"></i></span>
             <span class="about-text">
-                <small>Kenali lebih dekat</small>
+                <small>Halaman pribadi</small>
                 <strong>About Me</strong>
             </span>
             <span class="about-arrow"><i class="fa-solid fa-arrow-right"></i></span>
         </button>
     </div>
 
-    <!-- Downloader -->
-    <div class="section-head anim d-4">
-        <span class="section-head-label">
-            <i class="fa-solid fa-download"></i>
-            Downloader
-        </span>
-        <span class="section-head-divider"></span>
+    <div class="section-title fade" style="animation-delay:0.14s">
+        <i class="fa-solid fa-download"></i> Downloader
     </div>
 
     <div class="grid">
@@ -761,7 +499,7 @@ body {
                 <div class="card-icon"><i class="fa-brands fa-tiktok"></i></div>
                 <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
             </div>
-            <div class="card-body">
+            <div>
                 <div class="card-title">TikTok</div>
                 <div class="card-desc">Tanpa watermark</div>
             </div>
@@ -772,7 +510,7 @@ body {
                 <div class="card-icon"><i class="fa-brands fa-instagram"></i></div>
                 <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
             </div>
-            <div class="card-body">
+            <div>
                 <div class="card-title">Instagram</div>
                 <div class="card-desc">Reels, foto, video</div>
             </div>
@@ -783,9 +521,9 @@ body {
                 <div class="card-icon"><i class="fa-brands fa-pinterest-p"></i></div>
                 <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
             </div>
-            <div class="card-body">
+            <div>
                 <div class="card-title">Pinterest</div>
-                <div class="card-desc">Gambar &amp; video HD</div>
+                <div class="card-desc">Gambar &amp; video</div>
             </div>
         </div>
 
@@ -794,29 +532,24 @@ body {
                 <div class="card-icon"><i class="fa-brands fa-youtube"></i></div>
                 <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
             </div>
-            <div class="card-body">
+            <div>
                 <div class="card-title">YouTube</div>
                 <div class="card-desc">Video &amp; audio</div>
             </div>
         </div>
     </div>
 
-    <!-- Deployer -->
-    <div class="section-head anim d-5">
-        <span class="section-head-label">
-            <i class="fa-solid fa-rocket"></i>
-            Deployer
-        </span>
-        <span class="section-head-divider"></span>
+    <div class="section-title fade" style="animation-delay:0.18s">
+        <i class="fa-solid fa-rocket"></i> Deployer
     </div>
 
-    <div class="grid secondary">
+    <div class="grid">
         <div class="card card-vercel" data-tool="vercel">
             <div class="card-top">
                 <div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                 <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
             </div>
-            <div class="card-body">
+            <div>
                 <div class="card-title">Vercel</div>
                 <div class="card-desc">Deploy frontend</div>
             </div>
@@ -827,70 +560,51 @@ body {
                 <div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                 <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
             </div>
-            <div class="card-body">
+            <div>
                 <div class="card-title">Netlify</div>
                 <div class="card-desc">Deploy static site</div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer anim d-6">
+    <div class="footer fade" style="animation-delay:0.22s">
         <div class="footer-brand">FirstTool Fortech</div>
-        <div class="footer-copy">
-            &copy; <span id="year"></span> FortechDev · Made with <i class="fa-solid fa-heart"></i>
-        </div>
-    </footer>
+        <div class="footer-copy">&copy; <span id="year"></span> FortechDev</div>
+    </div>
 
 </div>
 
 <script>
-(function () {
-    'use strict';
+var logoImg = document.getElementById('logoImg');
+var fallback = document.querySelector('.logo-box .fallback');
 
-    /* Auto year */
-    var yearEl = document.getElementById('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-    /* Logo: kalau logo.png berhasil load -> sembunyikan fallback FT
-              kalau gagal -> sembunyikan img, biarkan FT tampil */
-    var logoImg = document.getElementById('logoImg');
-    var logoFallback = document.querySelector('.logo-fallback');
-    if (logoImg && logoFallback) {
-        logoImg.addEventListener('load', function () {
-            logoFallback.style.display = 'none';
-        });
-        logoImg.addEventListener('error', function () {
-            logoImg.style.display = 'none';
-            logoFallback.style.display = 'block';
-        });
-        /* Kalau gambar udah ke-cache & loaded duluan */
-        if (logoImg.complete && logoImg.naturalWidth > 0) {
-            logoFallback.style.display = 'none';
-        }
-    }
-
-    /* About Me -> porto.html */
-    var aboutBtn = document.getElementById('aboutBtn');
-    var overlay = document.getElementById('overlay');
-
-    if (aboutBtn) {
-        aboutBtn.addEventListener('click', function () {
-            if (overlay) overlay.classList.add('active');
-            setTimeout(function () {
-                window.location.href = 'porto.html';
-            }, 350);
-        });
-    }
-
-    /* Tool cards placeholder */
-    document.querySelectorAll('.card').forEach(function (card) {
-        card.addEventListener('click', function () {
-            console.log('Tool:', card.getAttribute('data-tool'));
-        });
+if (logoImg && fallback) {
+    logoImg.addEventListener('load', function () {
+        fallback.style.display = 'none';
     });
+    logoImg.addEventListener('error', function () {
+        logoImg.style.display = 'none';
+    });
+    if (logoImg.complete && logoImg.naturalWidth > 0) {
+        fallback.style.display = 'none';
+    }
+}
 
-})();
+document.getElementById('year').textContent = new Date().getFullYear();
+
+document.getElementById('aboutBtn').addEventListener('click', function () {
+    document.getElementById('overlay').classList.add('active');
+    setTimeout(function () {
+        window.location.href = 'porto.html';
+    }, 300);
+});
+
+document.querySelectorAll('.card').forEach(function (card) {
+    card.addEventListener('click', function () {
+        var tool = card.getAttribute('data-tool');
+        console.log(tool);
+    });
+});
 </script>
 
 </body>
