@@ -47,7 +47,6 @@ body {
     background: #0a0a0a;
 }
 
-/* Layer 1: Moving gradient — hitam + merah */
 .bg-gradient {
     position: absolute;
     inset: -20%;
@@ -65,7 +64,6 @@ body {
     100% { transform: translate(3%, -3%) rotate(-3deg) scale(1.05); }
 }
 
-/* Layer 2: Slow drifting blob */
 .bg-blob {
     position: absolute;
     width: 460px;
@@ -96,7 +94,6 @@ body {
     50%      { transform: translate(160px, 120px) scale(1.15); }
 }
 
-/* Layer 3: Grid — halus, bergerak diagonal */
 .bg-grid {
     position: absolute;
     inset: -50px;
@@ -115,7 +112,6 @@ body {
     to   { background-position: 48px 48px, 48px 48px; }
 }
 
-/* Layer 4: Partikel merah naik */
 .bg-particles {
     position: absolute;
     inset: 0;
@@ -142,7 +138,6 @@ body {
     100% { transform: translateY(-110vh) scale(1); opacity: 0; }
 }
 
-/* Layer 5: Slow scanning line */
 .bg-scan {
     position: absolute;
     top: -20%;
@@ -170,7 +165,6 @@ body {
     z-index: 1;
 }
 
-/* Fade in */
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -319,7 +313,6 @@ h1.title span {
     overflow: hidden;
 }
 
-/* Shimmer sweep */
 .about-btn::before {
     content: '';
     position: absolute;
@@ -450,9 +443,10 @@ h1.title span {
     user-select: none;
     position: relative;
     overflow: hidden;
+    text-decoration: none;
+    color: inherit;
 }
 
-/* Bottom accent line on hover */
 .card::after {
     content: '';
     position: absolute;
@@ -664,7 +658,7 @@ h1.title span {
 
 <div class="overlay" id="overlay">
     <div class="spinner"></div>
-    <div class="overlay-text">Buka porto...</div>
+    <div class="overlay-text" id="overlayText">Buka porto...</div>
 </div>
 
 <div class="container">
@@ -687,7 +681,7 @@ h1.title span {
     </div>
 
     <div class="about-wrap fade" style="animation-delay:0.1s">
-        <button type="button" class="about-btn" id="aboutBtn">
+        <button type="button" class="about-btn" id="aboutBtn" data-href="porto.html" data-label="Buka porto...">
             <span class="about-icon"><i class="fa-solid fa-user"></i></span>
             <span class="about-text">
                 <small>Halaman pribadi</small>
@@ -702,7 +696,7 @@ h1.title span {
     </div>
 
     <div class="grid">
-        <div class="card card-tiktok" data-tool="tiktok">
+        <div class="card card-tiktok" data-tool="tiktok" data-href="tiktok.html" data-label="Buka TikTok Downloader...">
             <div class="card-top">
                 <div class="card-icon"><i class="fa-brands fa-tiktok"></i></div>
                 <i class="fa-solid fa-arrow-up-right-from-square card-arrow"></i>
@@ -800,17 +794,37 @@ if (logoImg && fallback) {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
-document.getElementById('aboutBtn').addEventListener('click', function () {
-    document.getElementById('overlay').classList.add('active');
-    setTimeout(function () {
-        window.location.href = 'porto.html';
-    }, 300);
-});
+var overlay = document.getElementById('overlay');
+var overlayText = document.getElementById('overlayText');
 
+function navigateTo(href, label) {
+    if (!href) return;
+    if (overlayText && label) overlayText.textContent = label;
+    if (overlay) overlay.classList.add('active');
+    setTimeout(function () {
+        window.location.href = href;
+    }, 320);
+}
+
+/* About Me -> porto.html */
+var aboutBtn = document.getElementById('aboutBtn');
+if (aboutBtn) {
+    aboutBtn.addEventListener('click', function () {
+        navigateTo(aboutBtn.getAttribute('data-href'), aboutBtn.getAttribute('data-label'));
+    });
+}
+
+/* Cards — cek data-href */
 document.querySelectorAll('.card').forEach(function (card) {
     card.addEventListener('click', function () {
+        var href = card.getAttribute('data-href');
+        var label = card.getAttribute('data-label');
         var tool = card.getAttribute('data-tool');
-        console.log(tool);
+        if (href) {
+            navigateTo(href, label);
+        } else {
+            console.log(tool);
+        }
     });
 });
 </script>
