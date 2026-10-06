@@ -283,6 +283,112 @@ body {
     gap: 10px;
 }
 
+/* ============ ICON UPLOAD ============ */
+.icon-uploader {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    background: #0f0f12;
+    border: 1px dashed #35353d;
+    border-radius: 12px;
+    transition: border-color 0.25s ease, background 0.25s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.icon-uploader:hover,
+.icon-uploader.dragover {
+    border-color: #a855f7;
+    background: #141418;
+}
+
+.icon-uploader input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.icon-preview {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #1a1a1e, #101014);
+    border: 1px solid #26262b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4a4a52;
+    font-size: 22px;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.25s ease;
+}
+
+.icon-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.icon-uploader.has-icon .icon-preview {
+    border-color: #a855f7;
+    box-shadow: 0 0 20px -6px rgba(168, 85, 247, 0.6);
+}
+
+.icon-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    pointer-events: none;
+}
+
+.icon-info .icon-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #e8e8e8;
+}
+
+.icon-info .icon-sub {
+    font-size: 11px;
+    color: #6b6b73;
+    line-height: 1.4;
+}
+
+.icon-remove {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: #1a1a1e;
+    border: 1px solid #26262b;
+    color: #6b6b73;
+    font-size: 12px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.icon-uploader.has-icon .icon-remove { display: inline-flex; }
+
+.icon-remove:hover {
+    color: #ef4444;
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+}
+
+/* ============ BUTTONS ============ */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -366,7 +472,7 @@ body {
     transition: max-height 0.35s ease;
 }
 
-.advanced-body.open { max-height: 1200px; }
+.advanced-body.open { max-height: 1400px; }
 
 .progress-wrap { margin-top: 6px; }
 
@@ -496,17 +602,26 @@ body {
 }
 
 .result-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
     background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 30px;
     color: #fff;
     margin: 0 auto 12px;
     box-shadow: 0 8px 20px -8px rgba(34, 197, 94, 0.6);
+    overflow: hidden;
+    position: relative;
+}
+
+.result-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .result-title {
@@ -646,6 +761,7 @@ body {
     .hero-sm .hero-icon { width: 56px; height: 56px; font-size: 22px; }
     .panel { padding: 15px; }
     .field-row { grid-template-columns: 1fr; }
+    .icon-preview { width: 56px; height: 56px; border-radius: 12px; }
 }
 
 @media (min-width: 720px) {
@@ -732,6 +848,24 @@ body {
             <div>
                 <label for="versionCode">Version Code</label>
                 <input type="text" id="versionCode" value="1" autocomplete="off" inputmode="numeric" maxlength="6" />
+            </div>
+        </div>
+
+        <!-- ============ ICON UPLOAD ============ -->
+        <div class="field">
+            <label>Icon Aplikasi (PNG / JPG, max 2 MB)</label>
+            <div class="icon-uploader" id="iconUploader">
+                <input type="file" id="iconInput" accept="image/png,image/jpeg,image/jpg,image/webp" />
+                <div class="icon-preview" id="iconPreview">
+                    <i class="fa-solid fa-image"></i>
+                </div>
+                <div class="icon-info">
+                    <div class="icon-title" id="iconTitle">Pilih Icon</div>
+                    <div class="icon-sub" id="iconSub">Klik untuk upload atau drag &amp; drop</div>
+                </div>
+                <button type="button" class="icon-remove" id="iconRemove" title="Hapus icon">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
         </div>
 
@@ -829,7 +963,8 @@ body {
 <script>
 /* ============================================================
    WEB2APK COMPILER — FirstTool Fortech
-   Direct fetch tanpa proxy
+   Direct fetch, tanpa proxy
+   Dengan fitur upload icon aplikasi (base64)
    ============================================================ */
 
 (function () {
@@ -838,13 +973,16 @@ body {
     var BASE_URL = 'https://code-v-compiler-sr.vercel.app';
     var MAX_ATTEMPTS = 60;
     var POLL_INTERVAL = 2000;
+    var MAX_ICON_SIZE = 2 * 1024 * 1024; // 2 MB
 
     var state = {
         buildId: '',
         polling: false,
         completed: false,
         pollTimer: null,
-        attempt: 0
+        attempt: 0,
+        iconDataUrl: '',
+        iconFileName: ''
     };
 
     var $ = function (id) { return document.getElementById(id); };
@@ -876,6 +1014,13 @@ body {
     var elToastMsg = $('toastMsg');
     var elLoading = $('loadingOverlay');
     var elLoadingText = $('loadingText');
+
+    var elIconUploader = $('iconUploader');
+    var elIconInput = $('iconInput');
+    var elIconPreview = $('iconPreview');
+    var elIconTitle = $('iconTitle');
+    var elIconSub = $('iconSub');
+    var elIconRemove = $('iconRemove');
 
     function showToast(message, type) {
         type = type || 'success';
@@ -932,6 +1077,82 @@ body {
         elBuildLog.scrollTop = elBuildLog.scrollHeight;
     }
 
+    /* ============ ICON HANDLING ============ */
+    function handleIconFile(file) {
+        if (!file) return;
+
+        if (!/^image\/(png|jpe?g|webp)$/i.test(file.type)) {
+            showToast('Format harus PNG, JPG, atau WebP', 'error');
+            return;
+        }
+
+        if (file.size > MAX_ICON_SIZE) {
+            showToast('Ukuran icon max 2 MB', 'error');
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            state.iconDataUrl = e.target.result;
+            state.iconFileName = file.name;
+
+            elIconPreview.innerHTML = '<img src="' + state.iconDataUrl + '" alt="icon" />';
+            elIconTitle.textContent = file.name;
+            elIconSub.textContent = (file.size / 1024).toFixed(1) + ' KB · siap dipakai';
+            elIconUploader.classList.add('has-icon');
+            showToast('Icon berhasil diupload', 'success');
+        };
+        reader.onerror = function () {
+            showToast('Gagal membaca file', 'error');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function clearIcon() {
+        state.iconDataUrl = '';
+        state.iconFileName = '';
+        elIconInput.value = '';
+        elIconPreview.innerHTML = '<i class="fa-solid fa-image"></i>';
+        elIconTitle.textContent = 'Pilih Icon';
+        elIconSub.textContent = 'Klik untuk upload atau drag & drop';
+        elIconUploader.classList.remove('has-icon');
+    }
+
+    elIconInput.addEventListener('change', function (e) {
+        if (e.target.files && e.target.files[0]) {
+            handleIconFile(e.target.files[0]);
+        }
+    });
+
+    elIconRemove.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        clearIcon();
+        showToast('Icon dihapus', 'info');
+    });
+
+    ['dragenter', 'dragover'].forEach(function (evt) {
+        elIconUploader.addEventListener(evt, function (e) {
+            e.preventDefault();
+            elIconUploader.classList.add('dragover');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(function (evt) {
+        elIconUploader.addEventListener(evt, function (e) {
+            e.preventDefault();
+            elIconUploader.classList.remove('dragover');
+        });
+    });
+
+    elIconUploader.addEventListener('drop', function (e) {
+        var dt = e.dataTransfer;
+        if (dt && dt.files && dt.files[0]) {
+            handleIconFile(dt.files[0]);
+        }
+    });
+
+    /* ============ BUILD ============ */
     function submitBuild(payload) {
         return fetch(BASE_URL + '/api/build', {
             method: 'POST',
@@ -1001,6 +1222,12 @@ body {
             }
         };
 
+        // Sisipkan icon kalau ada (base64 data URL)
+        if (state.iconDataUrl) {
+            payload.options.icon = state.iconDataUrl;
+            payload.icon = state.iconDataUrl; // beberapa API pakai field root
+        }
+
         state.completed = false;
         state.attempt = 0;
 
@@ -1010,6 +1237,7 @@ body {
         clearLog();
         resetProgress();
         log('Memulai build request...', 'wait');
+        if (state.iconDataUrl) log('Icon disertakan: ' + state.iconFileName, 'info');
         setStatus('Submit...', 'working');
         setLoading(true, 'Mengirim permintaan build...');
 
@@ -1152,7 +1380,8 @@ body {
             targetUrl: (elTargetUrl.value || '').trim(),
             downloadUrl: downloadUrl,
             fileName: fileName,
-            fileSize: fileSize
+            fileSize: fileSize,
+            iconDataUrl: state.iconDataUrl
         });
 
         showToast('APK berhasil di-compile', 'success');
@@ -1201,9 +1430,13 @@ body {
     }
 
     function renderResult(info) {
+        var iconHtml = info.iconDataUrl
+            ? '<img src="' + info.iconDataUrl + '" alt="icon" />'
+            : '<i class="fa-brands fa-android"></i>';
+
         var html = '';
         html += '<div class="result-box">';
-        html += '<div class="result-icon"><i class="fa-brands fa-android"></i></div>';
+        html += '<div class="result-icon">' + iconHtml + '</div>';
         html += '<div class="result-title">APK Siap Digunakan</div>';
         html += '<div class="result-subtitle">Download dan install di perangkat Android kamu</div>';
 
@@ -1275,4 +1508,4 @@ body {
 </script>
 
 </body>
-  </html>
+</html>
